@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actualizar Curso</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #15746e;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .formulario-actualizar {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      color: #333;
+    }
+
+    .formulario-actualizar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .formulario-actualizar label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .formulario-actualizar input[type="text"], 
+    .formulario-actualizar select {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .formulario-actualizar input[type="text"]{
+        width: 40px;
+    }
+    .formulario-actualizar select {
+        width: 20rem;
+    }
+    .formulario-actualizar button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 200ms;
+      margin-top: 10px;
+    }
+
+    .formulario-actualizar button:hover {
+      background-color: #0056b3;
+    }
+
+    .formulario-actualizar .cancelar {
+      background-color: #e62222;
+    }
+
+    .formulario-actualizar .cancelar:hover {
+      background-color: #ff3636;
+    }
+  </style>
+</head>
+<body>
+
+<div class="formulario-actualizar">
+  <h2>Actualizar Curso</h2>
+  <form>
+    <label for="nombre-curso">Nombre del Curso:</label>
+    <input type="text" id="nombre-curso" name="nombre-curso" value="1004">
+
+    <label for="grado">Grado:</label>
+    <select id="grado" name="grado">
+      <option value="primero">Primero</option>
+      <option value="segundo">Segundo</option>
+      <option value="tercero">Tercero</option>
+      <option value="cuarto">Cuarto</option>
+      <option value="quinto">Quinto</option>
+      <option value="sexto">Sexto</option>
+      <option value="septimo">Séptimo</option>
+      <option value="octavo">Octavo</option>
+      <option value="noveno">Noveno</option>
+      <option value="decimo">Décimo</option>
+      <option value="once">Once</option>
+    </select>
+
+    <label for="jornada">Jornada:</label>
+    <select id="jornada" name="jornada">
+      <option value="mañana">Mañana</option>
+      <option value="tarde">Tarde</option>
+      <option value="noche">Noche</option>
+    </select>
+
+    <button type="submit">Actualizar</button>
+    <button type="button" class="cancelar" onclick="window.history.back();">Cancelar</button>
+  </form>
+</div>
+
+</body>
+</html>

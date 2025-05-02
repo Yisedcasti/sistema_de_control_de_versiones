@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Estudiantes</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #15746e;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      margin-top: 20px;
+    }
+
+    .selecciones {
+      width: 60%;
+      margin: 20px auto;
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .selecciones label {
+      font-weight: bold;
+      margin-right: 10px;
+      color: #333;
+    }
+
+    .selecciones select {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    table {
+      width: 40%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 12px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      color: black;
+      font-size: 20px;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+    button.actu {
+        margin-top: 4px;
+        font-size: 16px;
+     width: 156px;
+     height: 50px;
+     cursor: pointer;
+     display: inline-flex;
+     align-items: center;
+     background: #007BFF;
+     border: none;
+     border-radius: 5px;
+     margin-right: 10px;
+     box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+     }
+     
+     button.actu, button.actu span {
+     transition: 200ms; /* Transiciones suaves */
+     }
+     
+     button.actu .text {
+     transform: translateX(29px); /* Mueve el texto */
+     color: white;
+     }
+     
+     button.actu .icon {
+     position: absolute; /* Posiciona el icono en relación al botón */
+     border-left: 1px solid #55a5fc; /* Línea de separación */
+     transform: translateX(110px); /* Mueve el icono fuera del botón */
+     height: 40px;
+     width: 40px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     }
+     
+     button.actu svg {
+     width: 20px;
+     height: 20px;
+     fill: white; /* Color del icono */
+     }
+     button.table:hover .icon {
+     width: 140px;
+     border-left: none;
+     transform: translateX(0);
+     }
+     
+     button.actu:hover {
+     background: #0056b3; /* Color del botón al pasar el ratón */
+     }
+     
+     button.actu:hover .text {
+     color: transparent; /* Oculta el texto al pasar el ratón */
+     }
+     
+     button.actu:hover .icon {
+     width: 140px;
+     border-left: none;
+     transform: translateX(0);
+     }
+     
+     button.actu:focus {
+     outline: none; /* Elimina el contorno por defecto del foco */
+     }
+     
+     button.actu:active .icon svg {
+     transform: scale(0.8); /* Escala el icono al hacer clic */
+     }
+     
+     button.noselect {
+        font-size: 16px;
+     width: 156px;
+     height: 50px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     background: red;
+     border: none;
+     border-radius: 5px;
+     box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+     background: #e62222;
+     display: inline-flex;
+     }
+     
+     button.noselect, button.noselect span {
+     transition: 200ms; /* Transiciones suaves */
+     }
+     
+     button.noselect .text {
+     transform: translateX(35px); /* Mueve el texto */
+     color: white;
+     }
+     
+     button.noselect .icon {
+     position: absolute; /* Posiciona el icono en relación al botón */
+     border-left: 1px solid #c41b1b; /* Línea de separación */
+     transform: translateX(110px); /* Mueve el icono fuera del botón */
+     height: 40px;
+     width: 40px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     }
+     
+     button.noselect svg {
+     width: 15px;
+     fill: #eee; /* Color del icono */
+     }
+     button.table:hover .icon {
+     width: 140px;
+     border-left: none;
+     transform: translateX(0);
+     }
+     
+     button.noselect:hover {
+     background: #ff3636; /* Color del botón al pasar el ratón */
+     }
+     
+     button.noselect:hover .text {
+     color: transparent; /* Oculta el texto al pasar el ratón */
+     }
+     
+     button.noselect:hover .icon {
+     width: 140px;
+     border-left: none;
+     transform: translateX(0);
+     }
+     
+     button.noselect:focus {
+     outline: none; /* Elimina el contorno por defecto del foco */
+     }
+     
+     button.noselect:active .icon svg {
+     transform: scale(0.8); /* Escala el icono al hacer clic */
+     }
+     
+  </style>
+</head>
+<body>
+
+<h1>Gestión de Cursos</h1>
+
+<div class="selecciones">
+  <label for="grado">Grado:</label>
+  <select id="grado" name="grado">
+    <option value="primero">Primero</option>
+    <option value="segundo">Segundo</option>
+    <option value="tercero">Tercero</option>
+    <option value="cuarto">Cuarto</option>
+    <option value="quinto">Quinto</option>
+    <option value="sexto">Sexto</option>
+    <option value="septimo">Séptimo</option>
+    <option value="octavo">Octavo</option>
+    <option value="noveno">Noveno</option>
+    <option value="decimo">Décimo</option>
+    <option value="once">Once</option>
+  </select>
+
+  <label for="jornada">Jornada:</label>
+  <select id="jornada" name="jornada">
+    <option value="mañana">Mañana</option>
+    <option value="tarde">Tarde</option>
+    <option value="noche">Noche</option>
+  </select>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Curso</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1004</th>
+      <td><a href="Cursosactualizar.html"><button class="actu"><span class="text">Actualizar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+      </svg></button></a>
+        <button class="noselect"><span class="text">Borrar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
+        </td>
+    </tr>
+    <tr>
+      <th>1005</th>
+    <td><a href="Cursosactualizar.html"><button class="actu"><span class="text">Actualizar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+      </svg></button></a>
+        <button class="noselect"><span class="text">Borrar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button></td>
+    </tr>
+    <tr>
+      <th>1006</th>
+    <td><a href="Cursosactualizar.html"><button class="actu"><span class="text">Actualizar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+      </svg></button></a>
+        <button class="noselect"><span class="text">Borrar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button></td>
+    </tr>
+    <tr>
+      <th>1007</th>
+    <td><a href="Cursosactualizar.html"><button class="actu"><span class="text">Actualizar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+      </svg></button></a>
+        <button class="noselect"><span class="text">Borrar</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button></td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
