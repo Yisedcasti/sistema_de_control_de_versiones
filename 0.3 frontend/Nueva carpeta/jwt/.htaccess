@@ -1,0 +1,7 @@
+# Habilitar el motor de reescritura 
+RewriteEngine On
+
+# CONFIG  DE CORDS 
+Header set Access-control-Allow-Origen "*"
+Header Set Access-control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+Header Set Access-control-Allow-Headers "Authorization, content-Type"

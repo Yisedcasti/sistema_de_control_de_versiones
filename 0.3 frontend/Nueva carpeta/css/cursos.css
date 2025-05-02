@@ -1,0 +1,88 @@
+  .main-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 20rem);
+    gap: 10px;
+    margin:5% 0% 5% 7% ;
+}
+
+h2 {
+    margin:25px auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 45px;
+}
+
+
+th, td {
+    padding: 12px 0px ;
+    text-align: left;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.table th {
+    background-color: #7f7b82;
+    color: white;
+    font-family: serif;
+    text-align: center;
+}
+
+.cursos li {
+    font-family: serif, sans-serif;
+    font-size: 16px;
+    color: #000;
+    list-style-type: none;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.actions a {
+    padding: 8px;
+    border: none;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.actions a:hover {
+    color: #333;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer; 
+    font-size: 16px; 
+    font-family: serif;
+    padding: 0;
+    text-decoration: none; 
+}
+
+.btn-link:hover {
+    color: #333; 
+}
+
+.btn-link.text {
+    color: #333; 
+    text-decoration: none; 
+}
+
+.btn-link.text:hover {
+    color: #000; 
+}
+
