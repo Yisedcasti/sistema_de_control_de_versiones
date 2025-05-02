@@ -1,0 +1,568 @@
+ create database edufast;
+
+create table publicaciones(
+    idPublicacion int not null auto_increment,
+    imagen longtext not null,
+    evento char(45) not null,
+    fechaEvento date not null,
+    NumIdenti int not null,
+    primary key(idPublicacion)
+     );
+
+create table registro(
+    NumIdenti int not null,
+    tipoDoc varchar(12) not null,
+    Nombres varchar(50) not null,
+    apellidos varchar(50) not null,
+    fechaNacimiento date not null,
+    pais varchar(80) not null,
+    genero varchar(30) not null,
+    edad varchar(4) not null,
+    telefono varchar(20) not null,
+    celular varchar(20) not null,
+    correo varchar(45)not null,
+    direccion varchar(80) not null,
+     usuario char(40) not null,
+    contraseña char(25) not null,
+     idMatricula int not null,
+     primary key(NumIdenti)
+    );
+
+ create table matricula(
+    idMatricula int not null auto_increment,
+    foto longtext not null,
+    anioMatricula char(5) not null,
+    jornada char(10) not null,
+    grado_cursar char(4) not null,
+    municipioNacimiento char(80) not null,
+    departamentoNacimiento char(80) not null,
+    barrio char(40) not null,
+    localidad varchar(40) not null,
+    estrato char(5) not null,
+    nivel_sisben char(10) not null,
+    nombreMadre varchar(40)not null,
+    apellidosMadre varchar(40) not null,
+    documentoMadre varchar(15) not null,
+    direccionMadre varchar(80) not null,
+    telefonoMadre varchar(20) not null,
+    celularMadre varchar(15) not null,
+    correoMadre varchar(45) not null,
+    ocupacionMadre varchar(45) not null,
+    EmpresaMadre varchar(60) not null,
+    nombrepadre varchar(40) not null,
+    apellidospadre varchar(40) not null,
+    documentopadre varchar(15) not null,
+    direccionpadre varchar(80) not null,
+    telefonopadre varchar(20) not null,
+    celularpadre varchar(15) not null,
+    correopadre varchar(45) not null,
+    ocupacionpadre varchar(45) not null,
+    Empresapadre varchar(60) not null,
+    nombreAcudiente varchar(40) not null,
+    apellidosAcudiente varchar(40) not null,
+    documentoAcudiente varchar(15) not null,
+    direccionAcudiente varchar(80) not null,
+    telefonoAcudiente varchar(20) not null,
+    celularAcudiente varchar(15) not null,
+    correoAcudiente varchar(45) not null,
+    ocupacionAcudiente varchar(45) not null,
+    EmpresaAcudiente varchar(60) not null,
+    idGrado int not null,
+    idBoletin int not null,
+    primary key(idMatricula)
+    );
+
+ create table cita(
+    idCita int not null auto_increment,
+    motivo varchar(100) not null,
+    citado varchar(40) not null,
+    fechaCita date not null,
+    horaCita time not null,
+    primary key(idCita)
+   );
+
+
+ create table grado(
+     idGrado int not null auto_increment,
+     nivelEducativo varchar(45) not null,
+     primary key(idGrado)
+     ); 
+create table curso(
+    idCurso int not null auto_increment,
+    cursos char(9) not null,
+    primary key(idCurso)
+    ); 
+create table observador(
+    idObservador int not null auto_increment,
+    fechaObservacion DATE not null,
+    observacion varchar(100) not null,
+    firma longtext not null,
+    idCurso int not null,
+    idMatricula int not null,
+    primary key(idObservador)
+    ); 
+create table inasistencia(
+    idInasistencia int not null auto_increment,
+    fechaInasistencia DATE not null,
+    asistencia char(7) not null,
+    idCurso int not null,
+    primary key(idInasistencia)
+    ); 
+create table materia(
+    idMateria int not null auto_increment,
+    profesorMateria char(45)not null,
+    nombreMateria char(45) not null,
+    primary key(idMateria)
+    ); 
+
+ create table horario(
+    idHorario int not null auto_increment,
+    dia char(10)not null,
+    hora time not null,
+    salon char(10) not null,
+    idCurso int not null,
+    idMateria int not null,
+    primary key(idHorario)
+    ); 
+ create table logro(
+    idLogro int not null auto_increment,
+    numLogro char(30)not null,
+    nombreLogro char(70) not null,
+    descripLogro char(70) not null,
+    primary key(idLogro)
+    ); 
+ create table actividad(
+    idActividad int not null auto_increment,
+    nombreActividad char(70) not null,
+    descripActividad char(70) not null,
+    Actividad longtext not null,
+    primary key(idActividad)
+    ); 
+create table nota(
+    idNota int not null auto_increment,
+    nota char(15) not null,
+    fechaNota date not null,
+    idActividad int not null,
+    primary key(idNota)
+    ); 
+ create table boletin(
+    idBoletin int not null auto_increment,
+    primary key(idBoletin)
+    ); 
+relaciones
+
+ALTER TABLE publicaciones 
+ADD CONSTRAINT fk_registro 
+FOREIGN KEY (NumIdenti) 
+REFERENCES registro(NumIdenti);
+
+ALTER TABLE registro
+ADD CONSTRAINT fk_matricula 
+FOREIGN KEY (idMatricula) 
+REFERENCES matricula(idMatricula);
+
+ALTER TABLE matricula
+ADD CONSTRAINT fk_grado
+FOREIGN KEY (idGrado) 
+REFERENCES grado(idGrado);
+
+ALTER TABLE matricula
+ADD CONSTRAINT fk_Boletin
+FOREIGN KEY (idBoletin) 
+REFERENCES boletin(idBoletin);
+
+ALTER TABLE observador
+ADD CONSTRAINT fk_matriculaobservador
+FOREIGN KEY (idMatricula) 
+REFERENCES matricula(idMatricula);
+
+ALTER TABLE observador
+ADD CONSTRAINT fk_curso
+FOREIGN KEY (idCurso) 
+REFERENCES curso(idCurso);
+
+ALTER TABLE horario
+ADD CONSTRAINT fk_cursohorario
+FOREIGN KEY (idCurso) 
+REFERENCES curso(idCurso);
+
+ALTER TABLE inasistencia
+ADD CONSTRAINT fk_cursoInasistencia
+FOREIGN KEY (idCurso) 
+REFERENCES curso(idCurso);
+
+ALTER TABLE horario
+ADD CONSTRAINT fk_horarioMateria
+FOREIGN KEY (idMateria) 
+REFERENCES materia(idMateria);
+
+ALTER TABLE nota
+ADD CONSTRAINT fk_actividad
+FOREIGN KEY (idActividad) 
+REFERENCES actividad(idActividad);
+
+tablas relacionales 
+
+create table cita_has_matricula(
+idCita int not null,
+idMatricula int not null,
+foreign key( idCita) references cita(idCita),
+foreign key(idMatricula) references matricula(idMatricula)
+);
+
+create table curso_has_grado(
+idCurso int not null,
+idGrado int not null,
+foreign key(idCurso) references curso(idCurso),
+foreign key(idGrado) references grado(idGrado)
+);
+
+create table boletin_has_curso(
+idBoletin int not null,
+idCurso int not null,
+foreign key(idCurso) references curso(idCurso),
+foreign key(idBoletin) references boletin(idBoletin)
+);
+
+create table boletin_has_materia(
+idBoletin int not null,
+idMateria int not null,
+foreign key(idMateria) references materia(idMateria),
+foreign key(idBoletin) references boletin(idBoletin)
+);
+
+create table boletin_has_logro(
+idBoletin int not null,
+idLogro int not null,
+foreign key(idLogro) references logro(idLogro),
+foreign key(idBoletin) references boletin(idBoletin)
+);
+
+create table boletin_has_nota(
+idBoletin int not null,
+idNota int not null,
+foreign key(idBoletin) references boletin(idBoletin),
+foreign key(idNota) references nota(idNota)
+);
+
+create table logro_has_materia(
+idLogro int not null,
+idMateria int not null,
+foreign key(idMateria) references materia(idMateria),
+foreign key(idLogro) references logro(idLogro)
+);
+
+create table actividad_has_logro(
+idActividad int not null,
+idLogro int not null,
+foreign key(idActividad) references actividad(idActividad),
+foreign key(idLogro) references logro(idLogro)
+);
+
+insertar informacion 
+
+create procedure citaCreate(IN
+ motivo_c varchar(100), 
+ citado_c varchar(40),
+ fechaCita_c date,
+ horaCita_c time)
+begin
+insert into cita (motivo, citado, fechaCita, horaCita)
+VALUES( motivo_c, citado_c,fechaCita_c, horaCita_c);
+end$$
+
+create procedure citaUpdate(IN
+ idcita_u int,
+ motivo_u varchar(100), 
+ citado_u varchar(40),
+ fechaCita_u date,
+ horaCita_u time)
+begin
+UPDATE cita 
+        SET motivo = motivo_u, 
+            citado = citado_u, 
+            fechaCita = fechaCita_u, 
+            horaCita = horaCita_u
+        WHERE idcita = idcita_u;
+end$$
+
+create procedure citaDelete(IN idcita_d int)
+ begin
+DELETE FROM cita
+WHERE idcita = idcita_d;
+end$$
+
+insert into cita (motivo, citado, fechaCita, horaCita)
+     VALUES
+     (1'Llegadas tarde', 'Juan', '2024-01-10', '10:00:00'),
+     (2'Mal comportamiento', 'jhon', '2024-01-15', '9:00:00'),
+     (3'Mal comportamiento', 'jhon', '2024-01-15', '9:00:00'),
+     (4'Llegada tarde', 'laura', '2024-01-10', '9:00:00'),
+     (5'Malas notas', 'JOhan', '2024-01-15', '10:30:00'),
+     (6'Grosero', 'mauricio', '2024-01-30', '9:30:00'),
+     (7'Faltas', 'carlos', '2024-01-30', '10:30:00'),
+     (8'Uniforme', 'camila', '2024-02-3', '8:00:00'),
+     (9'REportes de notas', 'Profesora Andrea', '2024-02-10', '8:30:00'),
+     (10'REportes de notas', 'Profesora Julian', '2024-02-10', '9:30:00'),
+     (11'Fallas', 'catalina', '2024-02-10', '10:30:00'),
+     (12,'Fallas', 'fernanda', '2025-02-10', '9:50:00');
+     (13'Faltas', 'Cristiam', '2024-08-12', '10:00:00');
+
+
+
+INSERT INTO grado (nivelEducativo) VALUES 
+('Primero de Primaria'),
+('Segundo de Primaria'),
+('Tercero de Primaria'),
+('Cuarto de Primaria'),
+('Quinto de Primaria'),
+('Sexto de Secundaria'),
+('Séptimo de Secundaria'),
+('Octavo de Secundaria'),
+('Noveno de Secundaria'),
+('Décimo de Secundaria'),
+('Undécimo de Secundaria');
+
+INSERT INTO curso(cursos) VALUES 
+('1-05'),
+('1-06'),
+('1-07'),
+('2-05'),
+('2-06'),
+('2-07'),
+('3-05'),
+('3-06'),
+('3-07'),
+('3-08');
+
+INSERT INTO inasistencia (fechaInasistencia, asistencia, idCurso) VALUES 
+('2024-01-10', 'Ausente', 1),
+('2024-01-11', 'Presente', 2),
+('2024-01-12', 'Ausente', 3),
+('2024-01-13', 'Presente', 4),
+('2024-01-14', 'Ausente', 5),
+('2024-01-15', 'Presente', 6),
+('2024-01-16', 'Ausente', 7),
+('2024-01-17', 'Presente', 8),
+('2024-01-18', 'Ausente', 9),
+('2024-01-19', 'Presente', 10);
+
+
+INSERT INTO materia (profesorMateria, nombreMateria) VALUES 
+('Juan Pérez', 'Matemáticas'),
+('María Rodríguez', 'Ciencias'),
+('Luis Gómez', 'Literatura'),
+('Ana Martínez', 'Historia'),
+('Carlos Fernández', 'Química'),
+('Laura Sánchez', 'Física'),
+('Marta Díaz', 'Biología'),
+('José López', 'Geografía'),
+('Elena González', 'Arte'),
+('Pedro García', 'Deportes');
+
+INSERT INTO horario (dia, hora, salon, idCurso, idMateria) VALUES 
+('Lunes', '08:00:00', 'A101', 1, 1),
+('Lunes', '10:00:00', 'B202', 2, 2),
+('Martes', '08:00:00', 'C303', 3, 3),
+('Martes', '10:00:00', 'D404', 4, 4),
+('Miércoles', '08:00:00', 'E505', 5, 5),
+('Miércoles', '10:00:00', 'F606', 6, 6),
+('Jueves', '08:00:00', 'G707', 7, 7),
+('Jueves', '10:00:00', 'H808', 8, 8),
+('Viernes', '08:00:00', 'I909', 9, 9),
+('Viernes', '10:00:00', 'J1010', 10, 10);
+
+INSERT INTO logro (numLogro, nombreLogro, descripLogro) VALUES 
+('L1', 'Excelente Asistencia', 'Asistió a todas las clases del semestre sin ninguna falta'),
+('L2', 'Alto Rendimiento Académico', 'Obtuvo un promedio superior a 9.0 en todas las materias'),
+('L3', 'Participación Destacada', 'Participó activamente en todas las actividades de clase'),
+('L4', 'Trabajo en Equipo', 'Demostró habilidades sobresalientes en trabajos grupales'),
+('L5', 'Creatividad', 'Presentó proyectos altamente creativos e innovadores');
+('L6', 'Liderazgo', 'Mostró habilidades de liderazgo en actividades y proyectos'),
+('L7', 'Responsabilidad', 'Cumplió con todas las tareas y responsabilidades asignadas'),
+('L8', 'Innovación', 'Desarrolló soluciones innovadoras a problemas planteados'),
+('L9', 'Colaboración', 'Trabajó efectivamente en equipo y colaboró con compañeros'),
+('L10', 'Desarrollo Personal', 'Demostró un notable crecimiento personal y académico');
+
+INSERT INTO actividad (nombreActividad, descripActividad, Actividad) VALUES 
+('Proyecto de Ciencias', 'Investigación sobre energías renovables', 'Desarrollar un proyecto que explore las diferentes fuentes de energías renovables y sus aplicaciones'),
+('Taller de Matemáticas', 'Resolución de problemas complejos', 'Participar en talleres semanales para resolver problemas matemáticos avanzados'),
+('Lectura de Literatura', 'Análisis de obras clásicas', 'Leer y analizar obras literarias clásicas en grupo'),
+('Laboratorio de Química', 'Experimentos de reacciones químicas', 'Realizar experimentos en el laboratorio para observar y analizar reacciones químicas'),
+('Debate Escolar', 'Debate sobre temas actuales', 'Participar en debates sobre temas actuales y relevantes para la sociedad');
+('Exposición de Arte', 'Presentación de obras artísticas', 'Exponer y discutir obras de arte creadas durante el curso'),
+('Simulación de Empresa', 'Creación y gestión de una empresa simulada', 'Desarrollar y gestionar una empresa ficticia como proyecto de clase'),
+('Concurso de Ciencias', 'Competencia de proyectos científicos', 'Participar en un concurso donde se presentan proyectos científicos'),
+('Feria de Matemáticas', 'Exposición de proyectos matemáticos', 'Participar en una feria para presentar proyectos y soluciones matemáticas'),
+('Torneo Deportivo', 'Competencias deportivas escolares', 'Participar en torneos deportivos representando a la escuela');
+
+INSERT INTO nota (nota, fechaNota, idActividad) VALUES 
+('10', '2024-01-10', 1),
+('9.5', '2024-01-11', 2),
+('8', '2024-01-12', 3),
+('7.5', '2024-01-13', 4),
+('9', '2024-01-14', 5);
+('10', '2024-01-15', 6),
+('8.5', '2024-01-16', 7),
+('9', '2024-01-17', 8),
+('7', '2024-01-18', 9),
+('9.5', '2024-01-19', 10);
+
+INSERT INTO boletin (idBoletin) VALUE
+    -> (2346),
+    -> (2347),
+    -> (2348),
+    -> (2349),
+    -> (2350),
+    -> (2351),
+    -> (2352),
+    -> (2353),
+    -> (2354),
+    -> (2355);
+
+INSERT INTO matricula (foto, anioMatricula, jornada, grado_cursar, municipioNacimiento, departamentoNacimiento, barrio, localidad, estrato, nivel_sisben, nombreMadre, apellidosMadre, documentoMadre, direccionMadre, telefonoMadre, celularMadre, correoMadre, ocupacionMadre, EmpresaMadre, nombrepadre, apellidospadre, documentopadre, direccionpadre, telefonopadre, celularpadre, correopadre, ocupacionpadre, Empresapadre, nombreAcudiente, apellidosAcudiente, documentoAcudiente, direccionAcudiente, telefonoAcudiente, celularAcudiente, correoAcudiente, ocupacionAcudiente, EmpresaAcudiente, idGrado, idBoletin) VALUES 
+('foto1', '2024', 'Mañana', '10', 'Barranquilla', 'Atlántico', 'El Prado', 'Centro', '3', 'B3', 'Ana', 'Martínez', '1234567890', 'Calle 1 #23-45', '123456789', '321654987', 'ana.martinez@example.com', 'Enfermera', 'Hospital ABC', 'Juan', 'García', '0987654321', 'Calle 2 #67-89', '987654321', '654789123', 'juan.garcia@example.com', 'Ingeniero', 'Tech Ltda', 'Luis', 'Castro', '1357924680', 'Calle 3 #12-34', '567890123', '432109876', 'luis.castro@example.com', 'Abogado', 'Legal Services', 1, 2346),
+('foto2', '2024', 'Tarde', '11', 'Medellín', 'Antioquia', 'El Poblado', 'Norte', '4', 'C4', 'Laura', 'García', '2345678901', 'Avenida 1 #45-67', '234567890', '432109876', 'laura.garcia@example.com', 'Docente', 'Escuela XYZ', 'Carlos', 'Ramírez', '1098765432', 'Avenida 2 #89-01', '876543210', '567890123', 'carlos.ramirez@example.com', 'Contador', 'Finance Inc.', 'Sofía', 'Hernández', '2468135790', 'Avenida 3 #34-56', '678901234', '789012345', 'sofia.hernandez@example.com', 'Enfermera', 'Hospital DEF', 2, 2347),
+('foto3', '2024', 'Mañana', '9', 'Bogotá', 'Cundinamarca', 'Chapinero', 'Centro', '2', 'A2', 'Mónica', 'Sánchez', '3456789012', 'Carrera 1 #56-78', '345678901', '654321098', 'monica.sanchez@example.com', 'Arquitecta', 'Construcciones LM', 'Alejandro', 'Pérez', '2109876543', 'Carrera 2 #12-34', '765432109', '890123456', 'alejandro.perez@example.com', 'Médico', 'Health Clinic', 'Ricardo', 'Jiménez', '3579246801', 'Carrera 3 #45-67', '890123456', '901234567', 'ricardo.jimenez@example.com', 'Profesor', 'Educación Ltda', 3, 2348),
+('foto4', '2024', 'Tarde', '10', 'Cali', 'Valle del Cauca', 'San Fernando', 'Sur', '3', 'B3', 'Paola', 'Córdoba', '4567890123', 'Calle 4 #78-90', '456789012', '543210987', 'paola.cordoba@example.com', 'Psicóloga', 'Centro Psicológico', 'Miguel', 'Vargas', '3210987654', 'Calle 5 #01-23', '678901234', '890123456', 'miguel.vargas@example.com', 'Arquitecto', 'Arquitectura y Construcción', 'Verónica', 'Ríos', '4681357902', 'Calle 6 #34-56', '789012345', '901234567', 'veronica.rios@example.com', 'Ingeniera', 'Tecnología y Servicios', 4, 2349),
+('foto5', '2024', 'Mañana', '8', 'Cartagena', 'Bolívar', 'Getsemaní', 'Centro', '4', 'C4', 'Daniela', 'Gómez', '5678901234', 'Calle 7 #12-34', '567890123', '890123456', 'daniela.gomez@example.com', 'Abogada', 'Legal Firm', 'Fernando', 'Álvarez', '4321098765', 'Calle 8 #45-67', '890123456', '765432109', 'fernando.alvarez@example.com', 'Contador', 'Contabilidad y Finanzas', 'Catalina', 'Morales', '5792468130', 'Calle 9 #78-90', '901234567', '876543210', 'catalina.morales@example.com', 'Enfermera', 'Hospital GHI', 5, 2350),
+('foto6', '2024', 'Tarde', '11', 'Bucaramanga', 'Santander', 'Cañaveral', 'Norte', '2', 'A2', 'Claudia', 'Cano', '6789012345', 'Carrera 10 #23-45', '678901234', '987654321', 'claudia.cano@example.com', 'Ingeniera', 'Tech Solutions', 'Jorge', 'Cárdenas', '5432109876', 'Carrera 11 #56-78', '876543210', '654321098', 'jorge.cardenas@example.com', 'Economista', 'Econ Consult', 'Gabriela', 'Pardo', '6802469135', 'Carrera 12 #89-01', '987654321', '765432109', 'gabriela.pardo@example.com', 'Abogada', 'Legal Services', 6, 2351),
+('foto7', '2024', 'Mañana', '9B', 'Pereira', 'Risaralda', 'La Popa', 'Este', '3', 'B3', 'José', 'Arrieta', '7890123456', 'Avenida 15 #12-34', '789012345', '654321098', 'jose.arrieta@example.com', 'Docente', 'Instituto ABC', 'Lina', 'Salazar', '6543210987', 'Avenida 16 #45-67', '543210987', '876543210', 'lina.salazar@example.com', 'Médico', 'Hospital JKL', 'Carlos', 'Hernández', '7913579264', 'Avenida 17 #34-56', '678901234', '987654321', 'carlos.hernandez@example.com', 'Psicólogo', 'Centro Psicológico', 7, 2352),
+('foto8', '2024', 'Tarde', '10C', 'Santa Marta', 'Magdalena', 'Rodadero', 'Sur', '4', 'C4', 'María', 'Quintero', '8901234567', 'Calle 20 #45-67', '890123456', '543210987', 'maria.quintero@example.com', 'Psicóloga', 'Psicología y Terapia', 'Javier', 'Moreno', '6789012345', 'Calle 21 #56-78', '765432109', '890123456', 'javier.moreno@example.com', 'Ingeniero', 'Construcción XYZ', 'Sandra', 'Bermúdez', '8012345678', 'Calle 22 #67-89', '876543210', '901234567', 'sandra.bermudez@example.com', 'Abogada', 'Legal Consult', 8, 2353),
+('foto9', '2024', 'Mañana', '8B', 'Cúcuta', 'Norte de Santander', 'La Ciudadela', 'Centro', '2', 'A2', 'Ricardo', 'Pérez', '9012345678', 'Carrera 18 #34-56', '901234567', '876543210', 'ricardo.perez@example.com', 'Arquitecto', 'Arquitectura ABC', 'Natalia', 'García', '7890123456', 'Carrera 19 #67-89', '987654321', '765432109', 'natalia.garcia@example.com', 'Contadora', 'Contabilidad Ltda', 'Alejandro', 'Castro', '9123456789', 'Carrera 20 #12-34', '890123456', '654321098', 'alejandro.castro@example.com', 'Médico', 'Clínica Salud', 9, 2354),
+('foto10', '2024', 'Tarde', '11C', 'Neiva', 'Huila', 'Los Lagos', 'Noroeste', '3', 'B3', 'Angela', 'Vargas', '0123456789', 'Calle 30 #78-90', '012345678', '987654321', 'angela.vargas@example.com', 'Enfermera', 'Clínica del Norte', 'Felipe', 'Jiménez', '8901234567', 'Calle 31 #12-34', '654321098', '876543210', 'felipe.jimenez@example.com', 'Psicólogo', 'Centro de Psicología', 'Luisa', 'Muñoz', '0234567890', 'Calle 32 #34-56', '765432109', '890123456', 'luisa.munoz@example.com', 'Abogada', 'Abogados y Asociados', 10, 2355);
+
+INSERT INTO registro (NumIdenti, tipoDoc, Nombres, apellidos, fechaNacimiento, pais, genero, edad, telefono, celular, correo, direccion, usuario, contraseña, idMatricula) VALUES 
+(101234567, 'TI', 'Ana María', 'González', '2005-06-15', 'Colombia', 'Femenino', '19', '3216549870', '312345678', 'ana.gonzalez@example.com', 'Calle 10 #20-30', 'anamgonzalez', 'pass1234', 1),
+(102345678, 'TI', 'Juan Pablo', 'Martínez', '2004-08-22', 'Colombia', 'Masculino', '20', '3123456789', '3001234567', 'juan.martinez@example.com', 'Carrera 5 #12-34', 'juanpablom', 'pass5678', 2),
+(103456789, 'TI', 'Laura Isabel', 'Pérez', '2006-03-05', 'Colombia', 'Femenino', '18', '3007654321', '3134567890', 'laura.perez@example.com', 'Avenida 3 #45-67', 'lauraperez', 'password1', 3),
+(104567890, 'TI', 'Carlos Alberto', 'Rodríguez', '2005-11-12', 'Colombia', 'Masculino', '19', '3112345678', '3156789012', 'carlos.rodriguez@example.com', 'Calle 7 #23-45', 'carlosrodriguez', 'securepass', 4),
+(105678901, 'TI', 'Sofía Alejandra', 'García', '2007-01-30', 'Colombia', 'Femenino', '17', '3149876543', '3198765432', 'sofia.garcia@example.com', 'Calle 2 #67-89', 'sofiagarcia', 'mypassword', 5),
+(106789012, 'CC', 'Felipe Andrés', 'López', '2006-07-10', 'Colombia', 'Masculino', '18', '3201234567', '3187654321', 'felipe.lopez@example.com', 'Avenida 8 #12-34', 'felipelopez', 'pass12345', 6),
+(107890123, 'CC', 'Valentina', 'Hernández', '2004-05-25', 'Colombia', 'Femenino', '20', '3104567890', '3178901234', 'valentina.hernandez@example.com', 'Calle 4 #34-56', 'valentinah', 'password123', 7),
+(108901234, 'TI', 'Andrés Felipe', 'Suárez', '2005-09-18', 'Colombia', 'Masculino', '19', '3134567891', '3102345678', 'andres.suarez@example.com', 'Carrera 10 #45-67', 'andressuarez', '1234secure', 8),
+(109012345, 'CC', 'Camila María', 'Cruz', '2006-12-07', 'Colombia', 'Femenino', '18', '3156789012', '3123456789', 'camila.cruz@example.com', 'Avenida 1 #56-78', 'camilacruz', 'camila2024', 9),
+(110123456, 'TI', 'Mateo', 'Gómez', '2004-10-03', 'Colombia', 'Masculino', '20', '3198765432', '3112345679', 'mateo.gomez@example.com', 'Calle 6 #78-90', 'mateogomez', 'mysecurepass', 10);
+
+INSERT INTO publicaciones (imagen, evento, fechaEvento, NumIdenti) VALUES 
+('https://example.com/images/event1.jpg', 'Conferencia de Ciencia', '2024-03-12', 101234567),
+('https://example.com/images/event2.jpg', 'Feria de Tecnología', '2024-04-15', 102345678),
+('https://example.com/images/event3.jpg', 'Taller de Programación', '2024-05-20', 103456789),
+('https://example.com/images/event4.jpg', 'Exposición de Arte', '2024-06-10', 104567890),
+('https://example.com/images/event5.jpg', 'Competencia de Robótica', '2024-07-25', 105678901),
+('https://example.com/images/event6.jpg', 'Maratón de Lectura', '2024-08-30', 106789012),
+('https://example.com/images/event7.jpg', 'Debate Académico', '2024-09-15', 107890123),
+('https://example.com/images/event8.jpg', 'Día de la Ciencia', '2024-10-05', 108901234),
+('https://example.com/images/event9.jpg', 'Festival Cultural', '2024-11-20', 109012345),
+('https://example.com/images/event10.jpg', 'Gira Deportiva', '2024-12-18', 110123456);
+
+INSERT INTO observador (fechaObservacion, observacion, firma, idCurso, idMatricula) VALUES 
+('2024-03-15', 'Observación positiva sobre el desempeño en el curso.', 'Firma de Juan Pérez', 1, 1),
+('2024-04-12', 'Necesita mejorar en las tareas asignadas.', 'Firma de María López', 2, 2),
+('2024-05-20', 'Excelente participación en las actividades grupales.', 'Firma de Carlos Gómez', 3, 3),
+('2024-06-18', 'Requiere más atención en las clases prácticas.', 'Firma de Ana Martínez', 4, 4),
+('2024-07-25', 'Ha mostrado un gran avance en su aprendizaje.', 'Firma de Luis Fernández', 5, 5),
+('2024-08-30', 'Participación activa en el proyecto final.', 'Firma de Patricia Ruiz', 6, 6),
+('2024-09-15', 'Se sugiere mayor esfuerzo en la resolución de problemas.', 'Firma de Sergio Moreno', 7, 7),
+('2024-10-10', 'Excelente actitud y responsabilidad en el curso.', 'Firma de Laura Ramírez', 8, 8),
+('2024-11-20', 'Demuestra habilidades sobresalientes en la materia.', 'Firma de Javier Ortega', 9, 9),
+('2024-12-05', 'Necesita trabajar en la puntualidad.', 'Firma de Isabel Castaño', 10, 10);
+
+
+INSERT INTO cita_has_matricula (idCita,idMatricula) VALUES 
+(1,2),
+(1,5),
+(2,6),
+(2,5),
+(8,9),
+(1,6),
+(5,4),
+(6,8),
+(2,1),
+(1,1);
+
+
+INSERT INTO curso_has_grado(idCurso,idGrado) VALUES 
+(9,1),
+(4,4),
+(2,3),
+(6,6),
+(1,8),
+(2,6),
+(3,10),
+(8,5),
+(6,2),
+(4,2);
+
+
+INSERT INTO boletin_has_curso(idBoletin,idCurso) VALUES 
+(2346,1),
+(2347,4),
+(2348,3),
+(2349,9),
+(2350,8),
+(2351,6),
+(2352,10),
+(2353,5),
+(2355,7),
+(2355,2);
+
+INSERT INTO boletin_has_materia(idBoletin,idMateria) VALUES 
+(2346,1),
+(2347,4),
+(2348,3),
+(2349,9),
+(2350,8),
+(2351,6),
+(2352,10),
+(2353,5),
+(2355,7),
+(2355,2);
+
+INSERT INTO boletin_has_Logro(idBoletin,idLogro) VALUES 
+(2346,1),
+(2347,4),
+(2348,3),
+(2349,6),
+(2350,8),
+(2351,6),
+(2352,10),
+(2353,5),
+(2355,7),
+(2355,2);
+
+INSERT INTO boletin_has_nota(idBoletin,idNota) VALUES 
+(2346,1),
+(2347,4),
+(2348,3),
+(2349,6),
+(2350,8),
+(2351,6),
+(2352,10),
+(2353,5),
+(2355,7),
+(2355,2);
+
+INSERT INTO logro_has_materia(idLogro,idMateria) VALUES 
+(9,1),
+(4,4),
+(2,3),
+(6,6),
+(1,8),
+(2,6),
+(3,10),
+(8,5),
+(6,2),
+(4,2);
+
+INSERT INTO actividad_has_logro(idActividad,idLogro) VALUES 
+(1,2),
+(1,5),
+(2,6),
+(2,5),
+(8,9),
+(1,6),
+(5,4),
+(6,8),
+(2,1),
+(1,1);
