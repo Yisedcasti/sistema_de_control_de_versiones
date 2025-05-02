@@ -1,0 +1,16 @@
+{
+    "name": "edufast/edufast",
+    "autoload": {
+        "psr-4": {
+            "edufast\\": "app/",
+            "Config\\": "app/Config/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Englis666",
+            "email": "eabarros2610@gmail.com"
+        }
+    ],
+    "require": {}
+}
