@@ -1,0 +1,76 @@
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 45px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+
+}
+.actions a {
+    padding: 8px;
+    border: none;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.actions a:hover {
+    color: #333;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: serif;
+    padding: 0;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    color: #333;
+}
+
+.btn-link.text {
+    color: #333;
+    text-decoration: none;
+}
+
+.btn-link.text:hover {
+    color: #000;
+}
+
+.create-button {
+    background: rgb(241,255,0);
+background: linear-gradient(90deg, rgba(241,255,0,1) 0%, rgba(130,139,67,1) 100%);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+}
+
+.create-button a {
+    text-decoration: none;
+    color: white;
+}
+
+.create-button:hover {
+    background-color: #444;
+}
