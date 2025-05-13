@@ -1,0 +1,952 @@
+create database edufast
+
+__________________________________________________________________________________________________
+CREAR TABLAS 
+
+create table publicacion (
+id_publicacion int not null auto_increment,
+imagen longText not null,
+evento varchar(50),
+fecha_evento DATE,
+informacion varchar(200),
+PRIMARY KEY (id_publicacion)
+);
+
+CREATE TABLE registro(
+num_doc INT NOT NULL,
+nombre VARCHAR(45) NOT NULL,
+apellido VARCHAR(45) NOT NULL,
+tipo_doc VARCHAR(15) NOT NULL,
+celular VARCHAR(45) NOT NULL,
+correo VARCHAR(45) NOT NULL,
+usuario VARCHAR(45) NOT NULL,
+contraseña VARCHAR(45) NOT NULL,
+rol_id int not null,
+jornada_id int not null,
+PRIMARY KEY (num_doc)
+
+);
+
+CREATE TABLE rol(
+id_rol INT NOT NULL AUTO_INCREMENT,
+rol VARCHAR(45) NOT NULL,
+PRIMARY KEY (id_rol)
+);
+
+CREATE TABLE jornada(
+id_jornada INT NOT NULL AUTO_INCREMENT,
+jornada VARCHAR(45) NOT NULL,
+hora_inicio TIME NOT NULL,
+hora_final TIME NOT  NULL,
+PRIMARY KEY(id_jornada)
+);
+
+CREATE TABLE grado(
+id_grado  INT NOT NULL AUTO_INCREMENT,
+nivel_educativo VARCHAR(45) NOT NULL,
+grado VARCHAR(45) NOT NULL,
+jornada_id int not null,
+PRIMARY KEY(id_grado)
+);
+
+CREATE TABLE curso(
+id_curso INT NOT NULL AUTO_INCREMENT,
+curso VARCHAR(45) NOT NULL,
+grado_id int not null,
+jornada_id int not null,
+asistencia_id int not null,
+PRIMARY KEY(id_curso)
+);
+
+CREATE TABLE `asignacion` (
+  id_asignacion` int(11) NOT NULL,
+  num_doc` int(11) NOT NULL,
+  id_rol` int(11) NOT NULL,
+  id_jornada` int(11) NOT NULL,
+  id_grado` int(11) NOT NULL,
+  id_curso` int(11) NOT NULL
+  FOREIGN KEY(num_doc) REFERENCES registro(num_doc),
+  FOREIGN KEY(id_rol) REFERENCES rol(rol_id),
+  FOREIGN KEY(id_jornada) REFERENCES jornada(id_jornada),
+  FOREIGN KEY(id_grado) REFERENCES grado(id_grado),
+  FOREIGN KEY(id_curso) REFERENCES curso(id_curso)
+);
+
+CREATE TABLE asistencia(
+id_asistencia INT NOT NULL AUTO_INCREMENT,
+fecha_asistencia DATE NOT NULL,
+asistencia VARCHAR(45) NOT NULL,
+num_doc int not null,
+rol_id int not null,
+PRIMARY KEY(id_asistencia)
+);
+
+CREATE TABLE materia(
+id_materia INT NOT NULL AUTO_INCREMENT,
+materia VARCHAR(45) NOT NshULL,
+PRIMARY KEY(id_materia)
+);
+
+
+CREATE TABLE logro(
+codigo_logro INT NOT NULL AUTO_INCREMENT,
+logro VARCHAR(45) NOT NULL,
+descripcion_logro VARCHAR(100) NOT NULL,
+id_materia INT NOT NULL,
+PRIMARY KEY(codigo_logro),
+FOREIGN KEY(id_materia) references materia(id_materia)
+);
+
+CREATE TABLE actividad(
+id_actividad INT NOT NULL AUTO_INCREMENT,
+actividad VARCHAR(45) NOT NULL,
+descripcion_actividad VARCHAR (100) NOT NULL,
+codigo_logro int not null,
+PRIMARY KEY(id_actividad)
+);
+
+CREATE TABLE nota(
+id_nota INT NOT NULL AUTO_INCREMENT,
+fecha_nota DATE NOT NULL,
+nota VARCHAR(2) NOT NULL,
+num_doc INT NOT NULL,
+id_rol INT NOT NULL,
+id_jornada INT NOT NULL,
+codigo_logro INT NOT NULL,
+id_actividad INT NOT NULL,
+PRIMARY KEY(id_nota)
+);
+
+_______________________________________________________________________
+
+CREATE TABLE publicaion_registro(
+id_publicacion int not null,
+num_doc int not null,
+foreign key(id_publicacion) references publicacion(id_publicacion),
+foreign key(num_doc) references registro(num_doc)
+);
+
+CREATE TABLE materia_registro(
+id_materia INT not null,
+num_doc INT not null,
+id_rol INT not null,
+id_jornada INT not null,
+foreign key(id_materia) references materia(id_materia),
+foreign key(num_doc) references registro(num_doc),
+foreign key(id_rol) references rol(id_rol),
+foreign key(id_jornada) references jornada(id_jornada)
+);
+
+CREATE TABLE materia_curso(
+id_materia int not null,
+id_curso int not null,
+foreign key(id_materia) references materia(id_materia),
+foreign key(id_curso) references curso(id_curso)
+);
+
+
+mysqldump -u root -p --databases edufast2 >edufast2.sql
+
+alter table registro add constraint fk_rol 
+foreign key(rol_id) references rol(id_rol);
+
+alter table registro add constraint fk_jornada 
+foreign key(jornada_id) references jornada(id_jornada);
+
+alter table grado add constraint fk_jor 
+foreign key(jornada_id) references jornada(id_jornada);
+
+alter table curso add constraint fk_grado 
+foreign key(grado_id) references grado(id_grado);
+
+alter table curso add constraint fk_jornada2 
+foreign key(jornada_id) references jornada(id_jornada);
+
+alter table actividades add constraint fk_logro 
+foreign key(codigo_logro) references logro(codigo_logro);
+
+alter table nota add constraint fk_regis 
+foreign key(num_doc) references registro(num_doc);
+
+alter table nota add constraint fk_ol 
+foreign key(id_rol) references rol(id_rol);
+
+alter table nota add constraint fk_or 
+foreign key(id_jornada) references jornada(id_jornada);
+
+alter table nota add constraint fk_acti
+foreign key(id_actividad) references actividad(id_actividad);
+
+alter table nota add constraint fk_lo 
+foreign key(codigo_logro) references logro(codigo_logro);
+
+alter table asistencia add constraint fk_r 
+foreign key(num_doc) references registro(num_doc);
+
+alter table asistencia add constraint fk_rol2 
+foreign key(rol_id) references rol(id_rol);
+
+alter table asistencia add constraint fk_regi 
+foreign key(id_jornada) references jornada(id_jornada);
+_________________________________________________________________
+
+insertar registros 
+
+INSERT INTO publicacion (imagen, evento, fecha_evento, informacion) VALUES
+('Imagen 1', 'Evento 1', '2024-01-01', 'Información del evento 1'),
+('Imagen 2', 'Evento 2', '2024-02-01', 'Información del evento 2'),
+('Imagen 3', 'Evento 3', '2024-03-01', 'Información del evento 3'),
+('Imagen 4', 'Evento 4', '2024-04-01', 'Información del evento 4'),
+('Imagen 5', 'Evento 5', '2024-05-01', 'Información del evento 5'),
+('Imagen 6', 'Evento 6', '2024-06-01', 'Información del evento 6'),
+('Imagen 7', 'Evento 7', '2024-07-01', 'Información del evento 7'),
+('Imagen 8', 'Evento 8', '2024-08-01', 'Información del evento 8'),
+('Imagen 9', 'Evento 9', '2024-09-01', 'Información del evento 9'),
+('Imagen 10', 'Evento 10', '2024-10-01', 'Información del evento 10');
+
+INSERT INTO registro (num_doc, nombre, apellido, tipo_doc, celular, correo, usuario, contraseña, rol_id, jornada_id) VALUES
+(1001, 'Nombre 1', 'Apellido 1', 'CC', '1234567890', 'correo1@dominio.com', 'usuario1', 'contraseña1', 1, 1),
+(1002, 'Nombre 2', 'Apellido 2', 'CC', '1234567891', 'correo2@dominio.com', 'usuario2', 'contraseña2', 2, 2),
+(1003, 'Nombre 3', 'Apellido 3', 'CC', '1234567892', 'correo3@dominio.com', 'usuario3', 'contraseña3', 3, 3),
+(1004, 'Nombre 4', 'Apellido 4', 'CC', '1234567893', 'correo4@dominio.com', 'usuario4', 'contraseña4', 4, 4),
+(1005, 'Nombre 5', 'Apellido 5', 'CC', '1234567894', 'correo5@dominio.com', 'usuario5', 'contraseña5', 1, 1),
+(1006, 'Nombre 6', 'Apellido 6', 'CC', '1234567895', 'correo6@dominio.com', 'usuario6', 'contraseña6', 2, 2),
+(1007, 'Nombre 7', 'Apellido 7', 'CC', '1234567896', 'correo7@dominio.com', 'usuario7', 'contraseña7', 3, 3),
+(1008, 'Nombre 8', 'Apellido 8', 'CC', '1234567897', 'correo8@dominio.com', 'usuario8', 'contraseña8', 4, 4),
+(1009, 'Nombre 9', 'Apellido 9', 'CC', '1234567898', 'correo9@dominio.com', 'usuario9', 'contraseña9', 1, 1),
+(1010, 'Nombre 10', 'Apellido 10', 'CC', '1234567899', 'correo10@dominio.com', 'usuario10', 'contraseña10', 2, 2);
+
+INSERT INTO rol (rol) VALUES
+('Administrador'),
+('Docente'),
+('Estudiante'),
+('Invitado'),
+('Coordinador'),
+('Secretario'),
+('Asistente'),
+('Director'),
+('Orientador'),
+('Auxiliar');
+
+INSERT INTO jornada (jornada, hora_inicio, hora_final) VALUES
+('Mañana', '07:00:00', '13:00:00'),
+('Tarde', '13:00:00', '19:00:00'),
+('Noche', '19:00:00', '23:00:00'),
+('Completa', '07:00:00', '19:00:00'),
+('Especial', '08:00:00', '16:00:00'),
+('Fin de Semana', '08:00:00', '14:00:00'),
+('Intensivo', '09:00:00', '18:00:00'),
+('Vacacional', '10:00:00', '16:00:00'),
+('Sabatino', '08:00:00', '12:00:00'),
+('Dominical', '10:00:00', '14:00:00');
+
+INSERT INTO grado (nivel_educativo, grado, jornada_id) VALUES
+('Primaria', '1', 1),
+('Primaria', '2', 1),
+('Primaria', '3', 2),
+('Primaria', '4', 2),
+('Secundaria', '5', 3),
+('Secundaria', '6', 3),
+('Secundaria', '7', 4),
+('Secundaria', '8', 4),
+('Bachillerato', '9', 5),
+('Bachillerato', '10', 5);
+
+INSERT INTO curso (curso, grado_id, jornada_id, asistencia_id) VALUES
+('Curso 1', 1, 1, 1),
+('Curso 2', 2, 2, 2),
+('Curso 3', 3, 3, 3),
+('Curso 4', 4, 4, 4),
+('Curso 5', 5, 5, 5),
+('Curso 6', 6, 6, 6),
+('Curso 7', 7, 7, 7),
+('Curso 8', 8, 8, 8),
+('Curso 9', 9, 9, 9),
+('Curso 10', 10, 10, 10);
+
+INSERT INTO asistencia (fecha_asistencia, asistencia, num_doc, rol_id,id_jornada) VALUES
+('2024-01-01', 'Asistió', 1001, 1,3),
+('2024-01-02', 'Faltó', 1002, 2,4),
+('2024-01-03', 'Asistió', 1003, 3,4),
+('2024-01-04', 'Faltó', 1004, 4,4),
+('2024-01-05', 'Asistió', 1005, 1,6),
+('2024-01-06', 'Faltó', 1006, 2,5),
+('2024-01-07', 'Asistió', 1007, 3,7),
+('2024-01-08', 'Faltó', 1008, 4,3),
+('2024-01-09', 'Asistió', 1009, 1,5),
+('2024-01-10', 'Faltó', 1010, 2,8);
+
+INSERT INTO materia (materia) VALUES
+('Matemáticas'),
+('Lenguaje'),
+('Ciencias'),
+('Historia'),
+('Geografía'),
+('Física'),
+('Química'),
+('Biología'),
+('Inglés'),
+('Educación Física');
+
+INSERT INTO logro (logro, descripcion_logro) VALUES
+('Logro 1', 'Descripción del logro 1'),
+('Logro 2', 'Descripción del logro 2'),
+('Logro 3', 'Descripción del logro 3'),
+('Logro 4', 'Descripción del logro 4'),
+('Logro 5', 'Descripción del logro 5'),
+('Logro 6', 'Descripción del logro 6'),
+('Logro 7', 'Descripción del logro 7'),
+('Logro 8', 'Descripción del logro 8'),
+('Logro 9', 'Descripción del logro 9'),
+('Logro 10', 'Descripción del logro 10');
+
+INSERT INTO actividad (actividad, descripcion_actividad, codigo_logro) VALUES
+('Actividad 1', 'Descripción de la actividad 1', 1),
+('Actividad 2', 'Descripción de la actividad 2', 2),
+('Actividad 3', 'Descripción de la actividad 3', 3),
+('Actividad 4', 'Descripción de la actividad 4', 4),
+('Actividad 5', 'Descripción de la actividad 5', 5),
+('Actividad 6', 'Descripción de la actividad 6', 6),
+('Actividad 7', 'Descripción de la actividad 7', 7),
+('Actividad 8', 'Descripción de la actividad 8', 8),
+('Actividad 9', 'Descripción de la actividad 9', 9),
+('Actividad 10', 'Descripción de la actividad 10', 10);
+
+INSERT INTO nota (fecha_nota, nota, num_doc, id_rol, id_jornada, codigo_logro, id_actividad) VALUES
+('2024-01-01', 'A', 1001, 1, 1, 1, 1),
+('2024-01-02', 'B', 1002, 2, 2, 2, 2),
+('2024-01-03', 'C', 1003, 3, 3, 3, 3),
+('2024-01-04', 'D', 1004, 4, 4, 4, 4),
+('2024-01-05', 'E', 1005, 1, 1, 5, 5),
+('2024-01-06', 'F', 1006, 2, 2, 6, 6),
+('2024-01-07', 'G', 1007, 3, 3, 7, 7),
+('2024-01-08', 'H', 1008, 4, 4, 8, 8),
+('2024-01-09', 'I', 1009, 1, 1, 9, 9),
+('2024-01-10', 'J', 1010, 2, 2, 10, 10);
+
+INSERT INTO publicaion_registro (id_publicacion, num_doc) VALUES
+(1, 1001),
+(2, 1002),
+(3, 1003),
+(4, 1004),
+(5, 1005),
+(6, 1006),
+(7, 1007),
+(8, 1008),
+(9, 1009),
+(10, 1010);
+
+INSERT INTO materia_registro (id_materia, num_doc, id_rol, id_jornada) VALUES
+(1, 1001, 1, 1),
+(2, 1002, 2, 2),
+(3, 1003, 3, 3),
+(4, 1004, 4, 4),
+(5, 1005, 1, 1),
+(6, 1006, 2, 2),
+(7, 1007, 3, 3),
+(8, 1008, 4, 4),
+(9, 1009, 1, 1),
+(10, 1010, 2, 2);
+
+INSERT INTO logro_materia (codigo_logro, id_materia) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+INSERT INTO materia_curso (id_materia, id_curso) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+________________________________________________________________________
+
+procedimientos alamacenados
+
+
+
+CREATE PROCEDURE sp_create_publicacion(
+    IN p_imagen LONGTEXT,
+    IN p_evento VARCHAR(50),
+    IN p_fecha_evento DATE,
+    IN p_informacion VARCHAR(200)
+)
+BEGIN
+    INSERT INTO publicacion (imagen, evento, fecha_evento, informacion)
+    VALUES (p_imagen, p_evento, p_fecha_evento, p_informacion);
+END$$
+
+
+CREATE PROCEDURE sp_delete_publicacion(
+    IN p_id_publicacion INT
+)
+BEGIN
+    DELETE FROM publicacion WHERE id_publicacion = p_id_publicacion;
+END$$
+
+
+
+
+CREATE PROCEDURE sp_update_publicacion(
+    IN p_id_publicacion INT,
+    IN p_imagen LONGTEXT,
+    IN p_evento VARCHAR(50),
+    IN p_fecha_evento DATE,
+    IN p_informacion VARCHAR(200)
+)
+BEGIN
+    UPDATE publicacion
+    SET imagen = p_imagen, evento = p_evento, fecha_evento = p_fecha_evento, informacion = p_informacion
+    WHERE id_publicacion = p_id_publicacion;
+END$$
+
+
+
+
+CREATE PROCEDURE sp_get_publicacion()
+BEGIN
+    SELECT * FROM publicacion;
+END$$
+
+
+CREATE PROCEDURE create_registro(
+    IN p_num_doc INT,
+    IN p_nombre VARCHAR(45),
+    IN p_apellido VARCHAR(45),
+    IN p_tipo_doc VARCHAR(15),
+    IN p_celular VARCHAR(45),
+    IN p_correo VARCHAR(45),
+    IN p_usuario VARCHAR(45),
+    IN p_contraseña VARCHAR(45),
+    IN p_rol_id INT,
+    IN p_jornada_id INT
+)
+BEGIN
+    INSERT INTO registro (num_doc, nombre, apellido, tipo_doc, celular, correo, usuario, contraseña, rol_id, jornada_id)
+    VALUES (p_num_doc, p_nombre, p_apellido, p_tipo_doc, p_celular, p_correo, p_usuario, p_contraseña, p_rol_id, p_jornada_id);
+END$$
+
+
+
+
+CREATE PROCEDURE delete_registro(
+    IN p_num_doc INT
+)
+BEGIN
+    DELETE FROM registro WHERE num_doc = p_num_doc;
+END$$
+
+
+
+CREATE PROCEDURE update_registro(
+    IN p_num_doc INT,
+    IN p_nombre VARCHAR(45),
+    IN p_apellido VARCHAR(45),
+    IN p_tipo_doc VARCHAR(15),
+    IN p_celular VARCHAR(45),
+    IN p_correo VARCHAR(45),
+    IN p_usuario VARCHAR(45),
+    IN p_contraseña VARCHAR(45),
+    IN p_rol_id INT,
+    IN p_jornada_id INT
+)
+BEGIN
+    UPDATE registro
+    SET nombre = p_nombre, apellido = p_apellido, tipo_doc = p_tipo_doc, celular = p_celular, correo = p_correo, usuario = p_usuario, contraseña = p_contraseña, rol_id = p_rol_id, jornada_id = p_jornada_id
+    WHERE num_doc = p_num_doc;
+END$$
+
+
+
+CREATE PROCEDURE vista_registro()
+BEGIN
+    SELECT * FROM registro;
+END$$
+
+
+
+CREATE PROCEDURE create_rol(
+    IN p_rol VARCHAR(45)
+)
+BEGIN
+    INSERT INTO rol (rol)
+    VALUES (p_rol);
+END$$
+
+
+
+DELIMITER $$
+CREATE PROCEDURE delete_rol(
+    IN p_id_rol INT
+)
+BEGIN
+    DELETE FROM rol WHERE id_rol = p_id_rol;
+END$$
+
+
+CREATE PROCEDURE update_rol(
+    IN p_id_rol INT,
+    IN p_rol VARCHAR(45)
+)
+BEGIN
+    UPDATE rol
+    SET rol = p_rol
+    WHERE id_rol = p_id_rol;
+END$$
+
+
+CREATE PROCEDURE vista_rol()
+BEGIN
+    SELECT * FROM rol;
+END$$
+
+
+
+CREATE PROCEDURE create_jornada(
+    IN p_jornada VARCHAR(45),
+    IN p_hora_inicio TIME,
+    IN p_hora_final TIME
+)
+BEGIN
+    INSERT INTO jornada (jornada, hora_inicio, hora_final)
+    VALUES (p_jornada, p_hora_inicio, p_hora_final);
+END$$
+
+
+
+
+CREATE PROCEDURE delete_jornada(
+    IN p_id_jornada INT
+)
+BEGIN
+    DELETE FROM jornada WHERE id_jornada = p_id_jornada;
+END$$
+
+
+
+CREATE PROCEDURE update_jornada(
+    IN p_id_jornada INT,
+    IN p_jornada VARCHAR(45),
+    IN p_hora_inicio TIME,
+    IN p_hora_final TIME
+)
+BEGIN
+    UPDATE jornada
+    SET jornada = p_jornada, hora_inicio = p_hora_inicio, hora_final = p_hora_final
+    WHERE id_jornada = p_id_jornada;
+END$$
+
+
+
+CREATE PROCEDURE vista_jornada()
+BEGIN
+    SELECT * FROM jornada;
+END$$
+
+
+
+DELIMITER $$
+CREATE PROCEDURE create_grado(
+    IN p_nivel_educativo VARCHAR(45),
+    IN p_grado VARCHAR(45),
+    IN p_jornada_id INT
+)
+BEGIN
+    INSERT INTO grado (nivel_educativo, grado, jornada_id)
+    VALUES (p_nivel_educativo, p_grado, p_jornada_id);
+END$$
+
+CREATE PROCEDURE delete_grado(
+    IN p_id_grado INT
+)
+BEGIN
+    DELETE FROM grado WHERE id_grado = p_id_grado;
+END$$
+
+CREATE PROCEDURE update_grado(
+    IN p_id_grado INT,
+    IN p_nivel_educativo VARCHAR(45),
+    IN p_grado VARCHAR(45),
+    IN p_jornada_id INT
+)
+BEGIN
+    UPDATE grado
+    SET nivel_educativo = p_nivel_educativo, grado = p_grado, jornada_id = p_jornada_id
+    WHERE id_grado = p_id_grado;
+END$$
+
+CREATE PROCEDURE vista_grado()
+BEGIN
+    SELECT * FROM grado;
+END$$
+
+
+DELIMITER $$
+CREATE PROCEDURE create_curso(
+    IN p_curso VARCHAR(45),
+    IN p_grado_id INT,
+    IN p_jornada_id INT,
+    IN p_asistencia_id INT
+)
+BEGIN
+    INSERT INTO curso (curso, grado_id, jornada_id, asistencia_id)
+    VALUES (p_curso, p_grado_id, p_jornada_id, p_asistencia_id);
+END$$
+
+CREATE PROCEDURE delete_curso(
+    IN p_id_curso INT
+)
+BEGIN
+    DELETE FROM curso WHERE id_curso = p_id_curso;
+END$$
+
+CREATE PROCEDURE update_curso(
+    IN p_id_curso INT,
+    IN p_curso VARCHAR(45),
+    IN p_grado_id INT,
+    IN p_jornada_id INT,
+    IN p_asistencia_id INT
+)
+BEGIN
+    UPDATE curso
+    SET curso = p_curso, grado_id = p_grado_id, jornada_id = p_jornada_id, asistencia_id = p_asistencia_id
+    WHERE id_curso = p_id_curso;
+END$$
+
+CREATE PROCEDURE visualizar_curso()
+BEGIN
+    SELECT * FROM curso;
+END$$
+
+
+
+DELIMITER $$
+CREATE PROCEDURE create_asistencia(
+    IN p_fecha_asistencia DATE,
+    IN p_asistencia VARCHAR(45),
+    IN p_num_doc INT,
+    IN p_rol_id INT
+)
+BEGIN
+    INSERT INTO asistencia (fecha_asistencia, asistencia, num_doc, rol_id)
+    VALUES (p_fecha_asistencia, p_asistencia, p_num_doc, p_rol_id);
+END$$
+
+CREATE PROCEDURE delete_asistencia(
+    IN p_id_asistencia INT
+)
+BEGIN
+    DELETE FROM asistencia WHERE id_asistencia = p_id_asistencia;
+END$$
+
+CREATE PROCEDURE update_asistencia(
+    IN p_id_asistencia INT,
+    IN p_fecha_asistencia DATE,
+    IN p_asistencia VARCHAR(45),
+    IN p_num_doc INT,
+    IN p_rol_id INT
+)
+BEGIN
+    UPDATE asistencia
+    SET fecha_asistencia = p_fecha_asistencia, asistencia = p_asistencia, num_doc = p_num_doc, rol_id = p_rol_id
+    WHERE id_asistencia = p_id_asistencia;
+END$$
+
+CREATE PROCEDURE vvista_asistencia()
+BEGIN
+    SELECT * FROM asistencia;
+END$$
+
+
+
+DELIMITER $$
+CREATE PROCEDURE create_materia(
+    IN p_materia VARCHAR(45)
+)
+BEGIN
+    INSERT INTO materia (materia)
+    VALUES (p_materia);
+END$$
+
+CREATE PROCEDURE delete_materia(
+    IN p_id_materia INT
+)
+BEGIN
+    DELETE FROM materia WHERE id_materia = p_id_materia;
+END$$
+
+CREATE PROCEDURE update_materia(
+    IN p_id_materia INT,
+    IN p_materia VARCHAR(45)
+)
+BEGIN
+    UPDATE materia
+    SET materia = p_materia
+    WHERE id_materia = p_id_materia;
+END$$
+
+CREATE PROCEDURE visualizar_materia()
+BEGIN
+    SELECT * FROM materia;
+END$$
+
+
+
+DELIMITER $$
+CREATE PROCEDURE create_logro(
+    IN p_logro VARCHAR(45),
+    IN p_descripcion_logro VARCHAR(100),
+    IN p_id_materia INT
+)
+BEGIN
+    INSERT INTO logro (logro, descripcion_logro,id_materia)
+    VALUES (p_logro, p_descripcion_logro,p_id_materia);
+END$$
+
+CREATE PROCEDURE delete_logro(
+    IN p_codigo_logro INT
+)
+BEGIN
+    DELETE FROM logro WHERE codigo_logro = p_codigo_logro;
+END$$
+
+CREATE PROCEDURE update_logro(
+    IN p_codigo_logro INT,
+    IN p_logro VARCHAR(45),
+    IN p_descripcion_logro VARCHAR(100),
+    IN p_id_materia INT
+)
+BEGIN
+    UPDATE logro
+    SET logro = p_logro, descripcion_logro = p_descripcion_logro, id_materia = p_id_materia
+    WHERE codigo_logro = p_codigo_logro;
+END$$
+
+CREATE PROCEDURE vista_logro()
+BEGIN
+    SELECT * FROM logro;
+END$$
+
+
+
+DELIMITER $$
+CREATE PROCEDURE create_actividad(
+    IN p_actividad VARCHAR(45),
+    IN p_descripcion_actividad VARCHAR(100),
+    IN p_codigo_logro INT
+)
+BEGIN
+    INSERT INTO actividad (actividad, descripcion_actividad, codigo_logro)
+    VALUES (p_actividad, p_descripcion_actividad, p_codigo_logro);
+END$$
+
+CREATE PROCEDURE delete_actividad(
+    IN p_id_actividad INT
+)
+BEGIN
+    DELETE FROM actividad WHERE id_actividad = p_id_actividad;
+END$$
+
+CREATE PROCEDURE update_actividad(
+    IN p_id_actividad INT,
+    IN p_actividad VARCHAR(45),
+    IN p_descripcion_actividad VARCHAR(100),
+    IN p_codigo_logro INT
+)
+BEGIN
+    UPDATE actividad
+    SET actividad = p_actividad, descripcion_actividad = p_descripcion_actividad, codigo_logro = p_codigo_logro
+    WHERE id_actividad = p_id_actividad;
+END$$
+
+CREATE PROCEDURE vista_actividad()
+BEGIN
+    SELECT * FROM actividad;
+END$$
+
+
+
+
+DELIMITER $$
+CREATE PROCEDURE create_nota(
+    IN p_fecha_nota DATE,
+    IN p_nota VARCHAR(2),
+    IN p_num_doc INT,
+    IN p_id_rol INT,
+    IN p_id_jornada INT,
+    IN p_codigo_logro INT,
+    IN p_id_actividad INT
+)
+BEGIN
+    INSERT INTO nota (fecha_nota, nota, num_doc, id_rol, id_jornada, codigo_logro, id_actividad)
+    VALUES (p_fecha_nota, p_nota, p_num_doc, p_id_rol, p_id_jornada, p_codigo_logro, p_id_actividad);
+END$$
+
+CREATE PROCEDURE delete_nota(
+    IN p_id_nota INT
+)
+BEGIN
+    DELETE FROM nota WHERE id_nota = p_id_nota;
+END$$
+
+CREATE PROCEDURE update_nota(
+    IN p_id_nota INT,
+    IN p_fecha_nota DATE,
+    IN p_nota VARCHAR(2),
+    IN p_num_doc INT,
+    IN p_id_rol INT,
+    IN p_id_jornada INT,
+    IN p_codigo_logro INT,
+    IN p_id_actividad INT
+)
+BEGIN
+    UPDATE nota
+    SET fecha_nota = p_fecha_nota, nota = p_nota, num_doc = p_num_doc, id_rol = p_id_rol, id_jornada = p_id_jornada, codigo_logro = p_codigo_logro, id_actividad = p_id_actividad
+    WHERE id_nota = p_id_nota;
+END$$
+
+CREATE PROCEDURE vista_nota()
+BEGIN
+    SELECT * FROM nota;
+END$$
+
+
+
+
+-- Crear Publicación-Registro
+
+DELIMITER $$
+CREATE PROCEDURE create_publicacion_registro(
+    IN p_id_publicacion INT,
+    IN p_num_doc INT
+)
+BEGIN
+    INSERT INTO publicaion_registro (id_publicacion, num_doc)
+    VALUES (p_id_publicacion, p_num_doc);
+END$$
+
+CREATE PROCEDURE delete_publicacion_registro(
+    IN p_id_publicacion INT,
+    IN p_num_doc INT
+)
+BEGIN
+    DELETE FROM publicaion_registro 
+    WHERE id_publicacion = p_id_publicacion AND num_doc = p_num_doc;
+END$$
+
+CREATE PROCEDURE update_publicacion_registro(
+    IN p_id_publicacion INT,
+    IN p_num_doc INT,
+    IN p_new_id_publicacion INT,
+    IN p_new_num_doc INT
+)
+BEGIN
+    UPDATE publicaion_registro
+    SET id_publicacion = p_new_id_publicacion, num_doc = p_new_num_doc
+    WHERE id_publicacion = p_id_publicacion AND num_doc = p_num_doc;
+END$$
+
+CREATE PROCEDURE vista_publicacion_registro()
+BEGIN
+    SELECT * FROM publicaion_registro;
+END$$
+
+
+Materia-Registro
+
+DELIMITER $$
+CREATE PROCEDURE create_materia_registro(
+    IN p_id_materia INT,
+    IN p_num_doc INT,
+    IN p_id_rol INT,
+    IN p_id_jornada INT
+)
+BEGIN
+    INSERT INTO materia_registro (id_materia, num_doc, id_rol, id_jornada)
+    VALUES (p_id_materia, p_num_doc, p_id_rol, p_id_jornada);
+END$$
+
+CREATE PROCEDURE delete_materia_registro(
+    IN p_id_materia INT,
+    IN p_num_doc INT,
+    IN p_id_rol INT,
+    IN p_id_jornada INT
+)
+BEGIN
+    DELETE FROM materia_registro
+    WHERE id_materia = p_id_materia AND num_doc = p_num_doc AND id_rol = p_id_rol AND id_jornada = p_id_jornada;
+END$$
+
+CREATE PROCEDURE update_materia_registro(
+    IN p_id_materia INT,
+    IN p_num_doc INT,
+    IN p_id_rol INT,
+    IN p_id_jornada INT,
+    IN p_new_id_materia INT,
+    IN p_new_num_doc INT,
+    IN p_new_id_rol INT,
+    IN p_new_id_jornada INT
+)
+BEGIN
+    UPDATE materia_registro
+    SET id_materia = p_new_id_materia, num_doc = p_new_num_doc, id_rol = p_new_id_rol, id_jornada = p_new_id_jornada
+    WHERE id_materia = p_id_materia AND num_doc = p_num_doc AND id_rol = p_id_rol AND id_jornada = p_id_jornada;
+END$$
+
+CREATE PROCEDURE vista_materia_registro()
+BEGIN
+    SELECT * FROM materia_registro;
+END$$
+ 
+ Materia-Curso
+
+DELIMITER $$
+CREATE PROCEDURE create_materia_curso(
+    IN p_id_materia INT,
+    IN p_id_curso INT
+)
+BEGIN
+    INSERT INTO materia_curso (id_materia, id_curso)
+    VALUES (p_id_materia, p_id_curso);
+END$$
+
+CREATE PROCEDURE delete_materia_curso(
+    IN p_id_materia INT,
+    IN p_id_curso INT
+)
+BEGIN
+    DELETE FROM materia_curso
+    WHERE id_materia = p_id_materia AND id_curso = p_id_curso;
+END$$
+
+CREATE PROCEDURE update_materia_curso(
+    IN p_id_materia INT,
+    IN p_id_curso INT,
+    IN p_new_id_materia INT,
+    IN p_new_id_curso INT
+)
+BEGIN
+    UPDATE materia_curso
+    SET id_materia = p_new_id_materia, id_curso = p_new_id_curso
+    WHERE id_materia = p_id_materia AND id_curso = p_id_curso;
+END$$
+
+CREATE PROCEDURE vista_materia_curso()
+BEGIN
+    SELECT * FROM materia_curso;
+END$$
+
+

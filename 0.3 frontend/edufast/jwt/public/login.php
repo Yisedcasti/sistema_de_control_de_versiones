@@ -71,7 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         exit;
 
     } else {
-        echo json_encode(['error' => "Credenciales incorrectas"]);
+        header("Location: inicio2.php?status=error");
+        exit();
     }
 }
 ?>
+ 

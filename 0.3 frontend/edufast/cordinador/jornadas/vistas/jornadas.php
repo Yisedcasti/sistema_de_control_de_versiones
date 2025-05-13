@@ -1,12 +1,14 @@
 <?php
-include_once "consultar.php"; 
+include_once "../modelo/Jornadas.php";
 session_start();
 if (!isset($_SESSION['user'])) {
     $_SESSION['error_message'] = "Debes iniciar sesión para acceder a esta página.";
     header('Location: ../src/protected.php');
     exit;
 }
-
+// Crear una instancia de la clase Jornada y obtener las jornadas
+$jornadaModelo = new Jornada($base_de_datos);  // Instanciamos el modelo
+$jornadas = $jornadaModelo->obtenerJornadas();  // Obtenemos las jornadas
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +22,19 @@ if (!isset($_SESSION['user'])) {
     <link rel="stylesheet" href="../../../css/stylscoor.css"/>
     <title>jornadas</title>
 </head>
-
+<style>
+    .shadow{
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px !important;
+            }
+    .alert-success{
+        background-color:#dcfce7;
+        color:#016630;
+    }
+    .alert-danger{
+        background-color:#ffc9c9;
+        color:#9f0712;
+    }
+</style>
 <body>
     <div class="d-flex" id="wrapper">
     <div class="listado" id="sidebar-wrapper">
@@ -29,14 +43,9 @@ if (!isset($_SESSION['user'])) {
 
                 <a href="../../publicaciones/vistas/publicaciones_crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
                 <a href="../../grados/vistas/grados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Grados</a>
-                <a href="../../observador/vistas/alumnos.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Observadores</a>
-                <a href="../../materiaphp/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
-                <a href="../../logrophp/logros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Logros</a>
-                <a href="../../actividad/actividad.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Actividades</a>
-                <a href="../../asistencia/listados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Asistencias</a>
-                <a href="../../notas/notas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Notas</a>
-                <a href="../../Boletin/view/boletin.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Boletin</a>
-                <a href="../../pag_principal.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Principal</a>            </div>
+                <a href="../../materiaphp/vistas/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
+                <a href="../../pag_principal.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Principal</a>            
+            </div>
         </div>
 
         <div id="page-content-wrapper">
@@ -55,62 +64,74 @@ if (!isset($_SESSION['user'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle  text-white fw-bold" href="#" id="navbarDropdown"
+                            <a class="nav-link dropdown-toggle text-white fw-bold" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user me-2"></i><?php echo $_SESSION['nombres']; ?> <?php echo $_SESSION['apellidos']; ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Salir</a></li>
+                                <li><a class="dropdown-item" href="../../../cerrar.php">Salir</a></li>
+                  
                             </ul>
                         </li>
                     </ul>
                 </div>
             </nav>
 
-			<div class="container mt-5 ms-4 ">
+			<div class="container mt-5 ms-4">
                 <div class="row">
-                    <?php
-                     if (isset($_GET['status'])) {
-                        if ($_GET['status'] == 'success') {
-                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="autoCloseAlert">
-                                    ¡Accion realizada exitosamente!
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                  </div>';
-                        } elseif ($_GET['status'] == 'error') {
-                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="autoCloseAlert">
-                                    Algo salió mal. Por favor verifique los datos y vuelva a intentarlo.
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                  </div>';
-                        }
-                      }
-                    ?>
-                <main class="container">
-        <h1 class="text-center mb-4  text-white">Gestión de Jornadas</h1>
+                <?php
+if (isset($_GET['status'])) {
+    if ($_GET['status'] == 'success') {
+        // Mostrar mensaje de éxito
+        echo '<div class="alert alert-success alert-dismissible rounded-sm fs-5 border-0 fade show" role="alert" id="autoCloseAlert">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="30" height="30" class="justify-content-center me-auto"> 
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                </svg>
+                ¡Acción realizada exitosamente!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+    } elseif ($_GET['status'] == 'error') {
+        // Mostrar mensaje de error, con detalle si hay un mensaje específico
+        $errorMessage = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : 'Algo salió mal. Por favor verifique los datos y vuelva a intentarlo.';
+        
+        echo '<div class="alert alert-danger alert-dismissible rounded-sm fs-5 border-0 fade show" role="alert" id="autoCloseAlert">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="30" height="30" class="justify-content-center me-auto">
+  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+</svg>
+' . $errorMessage . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+    }
+}
+?>
+
+                <main class="container ">
+        <h1 class="text-center mb-4">Gestión de Jornadas</h1>
 
         <!-- Verificar si hay jornadas -->
         <?php if (!empty($jornadas)) : ?>
-            <div class="row ">
+            <div class="row justify-content-center">
                 <?php foreach ($jornadas as $jornada) : ?>
                    <div class="card Regular shadow ms-3 mb-3" style="width: 18rem;">
   <img src="../../../imagenes/mañana.jpg" width="140px" class="rounded d-bloc mt-4 ms-5 me-4" alt="...">
-  <div class="card-body">
+  <div class="card-body ">
  <h5 class="card-title text-center">Jornada</h5>
  <p class="text-center"><?php echo htmlspecialchars($jornada->jornada); ?></p>
   <table class="table ">
                                     <tbody>
                                         <tr>
-                                            <td class="text-center"><?php echo htmlspecialchars($jornada->hora_inicio); ?></td>
+                                            <td class="text-center border-right-thin separator"><?php echo htmlspecialchars($jornada->hora_inicio); ?></td>
                                             <td class="text-center"><?php echo htmlspecialchars($jornada->hora_final); ?></td>
                                         </tr>
                                         <tr>
-                                            <td class="text-center">Inicio</td>
+                                            <td class="text-center border-end">Inicio</td>
                                             <td class="text-center">Fin</td>
                                         </tr>
                                     </tbody>
                                 </table>
  <div class="d-flex justify-content-center ">
-                                <a  class="btn btn-dark Regular shadow"  data-bs-toggle="modal" data-bs-target="#actualizar<?php echo $jornada->id_jornada?>">Actualizar</a>
-                                <a  class="btn btn-danger ms-5 Regular shadow" data-bs-toggle="modal" data-bs-target="#confirmarModal<?php echo $jornada->id_jornada ?>">Eliminar</a>
+                                <a  class="btn btn-dark Regular"  data-bs-toggle="modal" data-bs-target="#actualizar<?php echo $jornada->id_jornada?>">Actualizar</a>
+                                <a  class="btn btn-danger ms-3 Regular" data-bs-toggle="modal" data-bs-target="#confirmarModal<?php echo $jornada->id_jornada ?>">Eliminar</a>
                                 </div>
   </div>
 </div>
@@ -120,7 +141,7 @@ if (!isset($_SESSION['user'])) {
             <p class="text-center">No se encontraron jornadas.</p>
         <?php endif; ?>
         <div class="d-flex justify-content-center ">
-        <a class="btn btn-dark mb-4 Regular shadow" type="button"  data-bs-toggle="modal" data-bs-target="#crear">Crear Actividad</a>
+        <a class="btn btn-dark mb-4 Regular" type="button"  data-bs-toggle="modal" data-bs-target="#crear">Crear Jornada</a>
         </div>
         
         <!-- MODEL CREAR-->
@@ -128,37 +149,38 @@ if (!isset($_SESSION['user'])) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Crear Actividad</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Crear jornada</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
             <header>
-            <h1>Actualizar jornada</h1>
         </header>
-        <form class="formulario" action="../funciones/crear.php" method="POST">
+        <form class="formulario" action="../controladores/controlador_jornada.php" method="POST">
+        <input type="hidden" name="accion" value="crear">
             <section class="jornada">
             <label for="jornada">Jornada</label>
-                        <select name="jornada" id="jornada" required>
+                        <select class="form-select" name="jornada" id="jornada" required>
                             <option value="Mañana">Mañana</option>
                             <option value="Tarde">Tarde</option>
                             <option value="Noche">Noche</option>
                             <option value="Unica">Unica</option>
                         </select>
             </section>
+            <section class="row">
 
-            <section class="time">
+            <section class="time col">
                 <label for="hora_inicio">Hora de Inicio:</label>
-                <input type="time" id="hora_inicio" name="hora_inicio" >
+                <input class="form-control" type="time" id="hora_inicio" name="hora_inicio" >
             </section>
 
-            <section class="time">
+            <section class="time col">
                 <label for="hora_final">Hora Final:</label>
-                <input type="time" id="hora_final" name="hora_final" >
+                <input class="form-control" type="time" id="hora_final" name="hora_final" >
             </section>
-
-            <section class="btn">
-                <input type="submit" name="insertar" value="Crear">
             </section>
+<section class="mt-2">
+                <input type="submit" class="btn btn-dark" name="insertar" value="Crear">
+                </section>
         </form>
             </div>
         </div>
@@ -177,32 +199,34 @@ if (!isset($_SESSION['user'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form class="formulario" action="../funciones/actualizar.php" method="POST">
+            <form class="formulario" action="../controladores/controlador_jornada.php" method="POST">
+            <input type="hidden" name="accion" value="actualizar">
             <input type="hidden" name="id_jornada" value="<?= $jornada->id_jornada ?>">
 
             <section class="jornada">
                 <label>Jornadas</label>
-                <select id="jornada" name="jornada">
+                <select class="form-select mb-2" id="jornada" name="jornada">
                     <option <?= $jornada->jornada == 'Mañana'? 'selected' : '' ?>>Mañana</option>
                     <option <?= $jornada->jornada == 'Tarde' ? 'selected' : '' ?>>Tarde</option>
                     <option <?= $jornada->jornada == 'Noche' ? 'selected' : '' ?>>Noche</option>
                     <option <?= $jornada->jornada == 'Unica' ? 'selected' : '' ?>>Unica</option>
                 </select>
             </section>
+            <div class="row">
 
-            <section class="time">
+            <section class="time col">
                 <label for="hora_inicio">Hora de Inicio:</label>
-                <input type="time" id="hora_inicio" name="hora_inicio" value="<?= $jornada->hora_inicio ?>">
+                <input class="form-control mb-2" type="time" id="hora_inicio" name="hora_inicio" value="<?= $jornada->hora_inicio ?>">
             </section>
 
-            <section class="time">
+            <section class="time col">
                 <label for="hora_final">Hora Final:</label>
-                <input type="time" id="hora_final" name="hora_final" value="<?= $jornada->hora_final ?>">
+                <input class="form-control mb-2" type="time" id="hora_final" name="hora_final" value="<?= $jornada->hora_final ?>">
             </section>
-
-            <section class="btn">
-                <input type="submit" name="insertar" value="Actualizar">
-            </section>
+            </div>
+            <section>
+                <input type="submit" class="btn btn-dark " name="insertar" value="Actualizar">
+                </section>
         </form>
             </div>
         </div>
@@ -224,7 +248,8 @@ if (!isset($_SESSION['user'])) {
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form method="POST" action="../funciones/jornadaEliminar.php">
+                    <form method="POST" action="../controladores/controlador_jornada.php">
+                    <input type="hidden" name="accion" value="eliminar">
                         <input type="hidden" name="id_jornada" value="<?php echo $jornada->id_jornada ?>">
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>

@@ -82,7 +82,7 @@ if (!isset($_SESSION['user'])) {
                         <h1 class="card-title">Profesor</h1>
                     </div>
                     <div class="card-footer text-center contenedor">
-                        <a href="registro/view/registros.php?id_rol=5" class="btn btn-dark">Registros</a>
+                        <a href="profesores/vistas/profesores.php" class="btn btn-dark">Profesores</a>
                     </div>
                 </div>
             </section>
@@ -99,14 +99,27 @@ if (!isset($_SESSION['user'])) {
                 </div>
             </section>
 
+            
+            <section class="col">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-book fs-1"></i>
+                        <h1 class="card-title">Logro</h1>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="logrophp/logros.php" class="btn btn-dark">Logros</a>
+                    </div>
+                </div>
+            </section>
+
             <section class="col">
                 <div class="card h-100">
                     <div class="card-body text-center">
                         <i class="fas fa-user-plus fs-1"></i>
-                        <h1 class="card-title">Alumno</h1>
+                        <h1 class="card-title">Observador</h1>
                     </div>
                     <div class="card-footer text-center contenedor">
-                        <a href="registro/view/registros.php?id_rol=6" class="btn btn-dark">Regsitros</a>
+                        <a href="Observador/vistas/alumnos.php" class="btn btn-dark">Observadores</a>
                     </div>
                 </div>
             </section>
@@ -135,17 +148,6 @@ if (!isset($_SESSION['user'])) {
                 </div>
             </section>
 
-            <section class="col">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-book fs-1"></i>
-                        <h1 class="card-title">Cursos</h1>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="cursos/curso.php" class="btn btn-dark">Cursos</a>
-                    </div>
-                </div>
-            </section>
         </div>
     </main>
                 </div>

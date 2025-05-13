@@ -30,10 +30,7 @@ if (!isset($_SESSION['user'])) {
                 <a href="publicaciones/vistas/publicaciones_crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
                 <a href="jornadas/vistas/jornadas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Jornadas</a>
                 <a href="grados/vistas/grados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Grados</a>
-                <a href="observador/vistas/alumnos.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Observador</a>
-                <a href="materiaphp/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
-                <a href="logrophp/logros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Logros</a>
-                <a href="actividad/actividad.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Actividades</a>
+                <a href="materiaphp/vistas/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
             </div>
         </div>
 
@@ -72,17 +69,6 @@ if (!isset($_SESSION['user'])) {
                         <p class="lead"> En este espacio podra  hacer varias cosas, podras registrar a los estudiantes, profesores, coordinadores y poderles asignar materias, cursos, grados, tener una asistencia y listado de los alumnos y muchas cosas màs. </p>
                     </div>
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4  ">
-            <section class="col">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-user-plus fs-1"></i>
-                        <h1 class="card-title">Profesor</h1>
-                    </div>
-                    <div class="card-footer text-center contenedor">
-                        <a href="profesores/vistas/profesores.php" class="btn btn-dark">Registros</a>
-                    </div>
-                </div>
-            </section>
 
             <section class="col">
                 <div class="card h-100">
@@ -91,34 +77,10 @@ if (!isset($_SESSION['user'])) {
                         <h1 class="card-title">Materias</h1>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="materiaphp/materia.php" class="btn btn-dark">Materias</a>
+                        <a href="materiaphp/vistas/materia.php" class="btn btn-dark">Materias</a>
                     </div>
                 </div>
-            </section>
-
-            <section class="col">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-book fs-1"></i>
-                        <h1 class="card-title">Actividades</h1>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="actividad/actividad.php" class="btn btn-dark">Actividad</a>
-                    </div>
-                </div>
-            </section>
-
-            <section class="col">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-user-plus fs-1"></i>
-                        <h1 class="card-title">Observador</h1>
-                    </div>
-                    <div class="card-footer text-center contenedor">
-                        <a href="observador/vistas/alumnos.php" class="btn btn-dark">Observadores</a>
-                    </div>
-                </div>
-            </section>
+</section>
 
             <section class="col">
                 <div class="card h-100">

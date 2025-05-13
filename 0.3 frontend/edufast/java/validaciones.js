@@ -1,49 +1,95 @@
-// Validar tiempo real para un campo específico
 function validarTiempoReal(input) {
-    // Elimina caracteres no numéricos
-    input.value = input.value.replace(/\D/g, '');
+  // Elimina caracteres no numéricos
+  input.value = input.value.replace(/\D/g, '');
 
-    // Obtén la longitud requerida desde el atributo data-length
-    const longitudRequerida = parseInt(input.getAttribute('data-length'), 10);
+  const min = parseInt(input.getAttribute('data-min'), 10);
+  const max = parseInt(input.getAttribute('data-max'), 10);
+  const errorDiv = input.nextElementSibling;
 
-    // Limita el número de caracteres al máximo permitido
-    if (input.value.length > longitudRequerida) {
-      input.value = input.value.slice(0, longitudRequerida); // Recorta al máximo permitido
-    }
-
-    // Muestra u oculta el mensaje de error dependiendo de la longitud
-    const errorDiv = input.nextElementSibling; // Div inmediatamente después del input
-    if (input.value.length !== longitudRequerida) {
-      errorDiv.style.display = 'block'; // Muestra el mensaje de error
-    } else {
-      errorDiv.style.display = 'none'; // Oculta el mensaje de error si es válido
-    }
+  // Limitar la longitud al máximo permitido
+  if (input.value.length > max) {
+    input.value = input.value.slice(0, max);
   }
 
-  function validarFormulario() {
-    let esValido = true;
+  // Validar si la longitud está dentro del rango
+  if (input.value.length < min || input.value.length > max) {
+    errorDiv.style.display = 'block';
+  } else {
+    errorDiv.style.display = 'none';
+  }
+}
 
-    // 1. Validación de los campos de texto
-    const inputs = document.querySelectorAll('input[type="text"]');
-    inputs.forEach(input => {
-        const longitudRequerida = parseInt(input.getAttribute('data-length'), 10);
-        const errorDiv = input.nextElementSibling; // Div de error asociado
-        if (input.value.length !== longitudRequerida) {
-            errorDiv.style.display = 'block'; // Muestra el error
-            esValido = false; // Indica que hay errores
-        } else {
-            errorDiv.style.display = 'none'; // Oculta el error si es válido
-        }
-    });
 
-    // 2. Validación de la contraseña
-    const password = document.getElementById('password').value;
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&#*])[A-Za-z\d@$!%?&#*]{8,}$/;
+function validarLongitud(input) {
+      // Elimina caracteres no numéricos
+      input.value = input.value.replace(/\D/g, '');
 
-    if (!regex.test(password)) {
-        alert('La contraseña no cumple con los requisitos.');
-        esValido = false; // Evitar el envío del formulario si la contraseña es incorrecta
+      // Longitud requerida desde atributo data-length
+      const longitudRequerida = parseInt(input.getAttribute('data-length'), 10);
+
+      // Limitar al máximo permitido
+      if (input.value.length > longitudRequerida) {
+        input.value = input.value.slice(0, longitudRequerida);
+      }
+
+      // Mostrar u ocultar el mensaje de error
+      const errorDiv = input.nextElementSibling;
+      if (input.value.length !== longitudRequerida) {
+        errorDiv.style.display = 'block';
+      } else {
+        errorDiv.style.display = 'none';
+      }
     }
 
-    return esValido; // Retorna true si todo es válido, false si hay errores
-}
+    // Validar contraseña mientras escribes
+    document.getElementById('password').addEventListener('input', function () {
+      const password = this.value;
+      const errorDiv = document.getElementById('error-password');
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+      if (!regex.test(password)) {
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.';
+      } else {
+        errorDiv.style.display = 'none';
+      }
+    });
+
+    // Validar todo el formulario al enviar
+    function validarFormulario() {
+      let esValido = true;
+
+      // Validar campos con data-length
+      const campos = document.querySelectorAll('input[data-length]');
+      campos.forEach(input => {
+        const longitud = parseInt(input.getAttribute('data-length'), 10);
+        const errorDiv = input.nextElementSibling;
+        input.value = input.value.replace(/\D/g, '');
+
+        if (input.value.length !== longitud) {
+          errorDiv.style.display = 'block';
+          esValido = false;
+        } else {
+          errorDiv.style.display = 'none';
+        }
+      });
+
+      // Validar contraseña
+      const password = document.getElementById('password').value;
+      const errorDivPassword = document.getElementById('error-password');
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+      if (!regex.test(password)) {
+        errorDivPassword.style.display = 'block';
+        errorDivPassword.textContent = 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.';
+        esValido = false;
+      } else {
+        errorDivPassword.style.display = 'none';
+      }
+
+      if (!esValido) {
+        alert('Por favor corrige los errores antes de enviar el formulario.');
+      }
+
+      return esValido;
+    }

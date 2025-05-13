@@ -31,8 +31,6 @@ include_once "../funciones/consulta.php";
                 <a href="../../jornadas/vistas/jornadas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Jornadas</a>
                 <a href="../../grados/vistas/grados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Grados</a>
                 <a href="../../materiaphp/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
-                <a href="../../logrophp/logros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Logros</a>
-                <a href="../../actividad/actividad.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Actividades</a>
                 <a href="../../pag_principal.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Volver</a>
         </div>
 
@@ -108,7 +106,7 @@ include_once "../funciones/consulta.php";
                name="titulo" 
                value="<?php echo htmlspecialchars($publicacion->titulo); ?>" 
                class="form-control border-0 bg-transparent text-center">
-    </td>
+    </td> 
     <td>
     <input type="text"
        name="info"

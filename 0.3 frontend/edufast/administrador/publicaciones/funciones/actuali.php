@@ -43,10 +43,10 @@ try {
 
     // Verificar si la actualización fue exitosa
     if ($resultado) {
-        header("Location: pagina ala que se va a dirigir?status=success");
+        header("Location:../vistas/actualizar_evento.php?status=success");
         exit();
     } else {
-        header("Location: pagina ala que se va a dirigir?status=error");
+        header("Location:../vistas/actualizar_evento.php?status=error");
    exit();
     }
 

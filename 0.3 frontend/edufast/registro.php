@@ -67,8 +67,8 @@ $roles = $base_de_datos->query("SELECT * FROM rol")->fetchAll(PDO::FETCH_ASSOC);
             
                     <div class="col-md-12 right">
                     <div class="container2">
-        <h1 class="title text-center">Registro</h1>
-        <form action="registrarUsuario.php" method="post" enctype="multipart/form-data">
+        <h1 class="title text-center">Registro</h1> 
+        <form action="registrarUsuario.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
             <div class="form-group">
                 <span class="label">Rol</span>
                 <select name="id_rol" id="id_rol"  class="input" required>
@@ -91,10 +91,10 @@ $roles = $base_de_datos->query("SELECT * FROM rol")->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="form-group">
                 <span class="label">Nº documento</span>
-                <input name="num_doc" oninput="validarTiempoReal(this)" maxlength="10" data-length="10" id="num_doc" type="number" class="input"  required>
-                <div id="error" style="color: red; display: none;">El número debe tener de 8 a 10 dígitos.</div>
+                <input name="num_doc" oninput="validarTiempoReal(this)" maxlength="10" data-min="8" data-max="10"id="num_doc" type="number" class="input" required>
+               <div id="error" style="color: red; display: none;"> El número debe tener entre 8 y 10 dígitos. </div>
+           </div>
 
-            </div>
             <div class="form-group">
                 <span class="label">Nombre completo</span>
                 <input name="nombre" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" id="nombre" type="text"  class="input" required>
@@ -105,14 +105,14 @@ $roles = $base_de_datos->query("SELECT * FROM rol")->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="form-group">
                 <span class="label">Celular</span>
-                <input name="celular" oninput="validarTiempoReal(this)" 
+                <input name="celular" oninput="validarLongitud(this)" 
                 maxlength="10" data-length="10" id="celular" type="number"  class="input" required>
                 <div id="error" style="color: red; display: none;">El número debe tener exactamente 10 dígitos.</div>
             </div>
             <div class="form-group">
                 <span class="label">Telefono</span>
-                <input name="telefono" oninput="validarTiempoReal(this)" 
-                maxlength="7" data-length="7" id="Telefono" type="number"  class="input" required>
+                <input name="telefono" oninput="validarTiempoReal(this)" maxlength="7" data-min="0" data-max="7"
+                id="Telefono" type="number"  class="input">
                 <div id="error_1" style="color: red; display: none;">El número debe tener exactamente 7 dígitos.</div>
 
             </div>
@@ -126,7 +126,7 @@ $roles = $base_de_datos->query("SELECT * FROM rol")->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="form-group">
                 <span class="label">foto_perfil</span>
-                <input name="foto_perfil" id="foto_perfil" type="file" class="input"  required>
+                <input name="foto_perfil" id="foto_perfil" type="file" class="input">
             </div>
             <div class="form-group">
                 <span class="label">Contraseña</span>
@@ -146,9 +146,103 @@ $roles = $base_de_datos->query("SELECT * FROM rol")->fetchAll(PDO::FETCH_ASSOC);
 
 </main>
 </body>
+<script>
 
-<script src="java/pass.js"></script>
-    <script src="java/alertas.js"></script>
-    <script src="java/validaciones.js"></script>
+    function validarTiempoReal(input) {
+  input.value = input.value.replace(/\D/g, '');
+
+  const min = parseInt(input.getAttribute('data-min'), 10);
+  const max = parseInt(input.getAttribute('data-max'), 10);
+  const errorDiv = input.nextElementSibling;
+
+  // Limitar la longitud al máximo permitido
+  if (input.value.length > max) {
+    input.value = input.value.slice(0, max);
+  }
+
+  // Validar si la longitud está dentro del rango
+  if (input.value.length < min || input.value.length > max) {
+    errorDiv.style.display = 'block';
+  } else {
+    errorDiv.style.display = 'none';
+  }
+}
+
+
+function validarLongitud(input) {
+      // Elimina caracteres no numéricos
+      input.value = input.value.replace(/\D/g, '');
+
+      // Longitud requerida desde atributo data-length
+      const longitudRequerida = parseInt(input.getAttribute('data-length'), 10);
+
+      // Limitar al máximo permitido
+      if (input.value.length > longitudRequerida) {
+        input.value = input.value.slice(0, longitudRequerida);
+      }
+
+      // Mostrar u ocultar el mensaje de error
+      const errorDiv = input.nextElementSibling;
+      if (input.value.length !== longitudRequerida) {
+        errorDiv.style.display = 'block';
+      } else {
+        errorDiv.style.display = 'none';
+      }
+    }
+
+    // Validar contraseña mientras escribes
+    document.getElementById('password').addEventListener('input', function () {
+      const password = this.value;
+      const errorDiv = document.getElementById('error-password');
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+      if (!regex.test(password)) {
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.';
+      } else {
+        errorDiv.style.display = 'none';
+      }
+    });
+
+    // Validar todo el formulario al enviar
+    function validarFormulario() {
+      let esValido = true;
+
+      // Validar campos con data-length
+      const campos = document.querySelectorAll('input[data-length]');
+      campos.forEach(input => {
+        const longitud = parseInt(input.getAttribute('data-length'), 10);
+        const errorDiv = input.nextElementSibling;
+        input.value = input.value.replace(/\D/g, '');
+
+        if (input.value.length !== longitud) {
+          errorDiv.style.display = 'block';
+          esValido = false;
+        } else {
+          errorDiv.style.display = 'none';
+        }
+      });
+
+      // Validar contraseña
+      const password = document.getElementById('password').value;
+      const errorDivPassword = document.getElementById('error-password');
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+
+      if (!regex.test(password)) {
+        errorDivPassword.style.display = 'block';
+        errorDivPassword.textContent = 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.';
+        esValido = false;
+      } else {
+        errorDivPassword.style.display = 'none';
+      }
+
+      if (!esValido) {
+        alert('Por favor corrige los errores antes de enviar el formulario.');
+      }
+
+      return esValido;
+    }
+</script>
+<script src="java/alertas.js"></script>
 
 </html>

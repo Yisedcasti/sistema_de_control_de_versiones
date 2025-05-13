@@ -18,10 +18,11 @@ $publicacionesNoticias = $sentencia->fetchAll(PDO::FETCH_OBJ);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="principal.css">
+    <link rel="stylesheet" href="style.css">
     <title>Index</title>
 </head>
 <body>
-    <header class="containerNav navbar navbar-expand-lg shadow fixed-top" style="background-color:#581845;">
+    <header class="containerNav navbar navbar-expand-lg shadow fixed-top" style="background-color:#252525;">
         <div class="container d-flex justify-content-between align-items-left">
             <!-- Logo -->
             <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#" style="color: white; cursor: default;">
@@ -66,10 +67,6 @@ $publicacionesNoticias = $sentencia->fetchAll(PDO::FETCH_OBJ);
                 </div>
             </div>
         </section>
-        
-       
-        
-
         <section class="pagina" id="pagina">
             <section class="conteinerPagina">
                 <figure class="imagenPage col-6 p-3">
@@ -83,37 +80,42 @@ $publicacionesNoticias = $sentencia->fetchAll(PDO::FETCH_OBJ);
             </section>
             
         <section class="eventos" id="eventos">
-            <div id="carouselExampleCaptions" class="carousel slide">
-            <?php foreach ($publicacionesEventos as $publicacion): ?>
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                  <div class="carousel-item active c-item">
-                    <img src="<?php echo "imagenes/" . htmlspecialchars($publicacion->img); ?>" class="d-block w- c-img" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5><?php echo htmlspecialchars($publicacion->evento); ?></h5>
-                      <p class="text-light"><?php echo htmlspecialchars($publicacion->fecha_evento); ?></p>
-                      <p><?php echo htmlspecialchars($publicacion->nombres); ?></p>
-                    </div>
-                  </div>
+            
+        <div id="carrusel" class="carrusel">
+    <div class="atras">
+        <img id="atras" src="imagenes/atras.svg" alt="atras" loading="lazy">
+    </div>
 
-                 
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-                <?php endforeach; ?>
+    <div class="imagenes">
+        <div id="img">
+        </div>
+
+        <div id="texto" class="texto">
+        </div>
+    </div>
+
+    <div class="adelante" id="adelante">
+        <img src="imagenes/adelante.svg" alt="adelante" loading="lazy">
+    </div>
 </div>
+
+
+<script>
+    const imagenes = [
+        <?php foreach ($publicacionesEventos as $publicacion): ?>
+        {
+            url: "imagenes/<?php echo htmlspecialchars($publicacion->img); ?>",
+            nombre: "<?php echo htmlspecialchars($publicacion->evento); ?>",
+            descripcion: "<?php echo htmlspecialchars($publicacion->fecha_evento); ?> <br> <?php echo htmlspecialchars($publicacion->nombres); ?>"
+        },
+        <?php endforeach; ?>
+    ];
+</script>
+
         </section>
         <section>
             <section class="noticias" id="noticias">
+                <h3 class="text-center ">NOTICIAS ACADEMICAS</h3>
             <?php foreach ($publicacionesNoticias as $publicacion): ?>
                 <article class="articulo">
                     <header>
@@ -214,7 +216,43 @@ $publicacionesNoticias = $sentencia->fetchAll(PDO::FETCH_OBJ);
             <p>Todos los derechos reservados <br>EDUFAST </p>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="../edufast2.0/java/index.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
+    <script>
+        let atras = document.getElementById('atras');
+let adelante = document.getElementById('adelante');
+let imagen = document.getElementById('img');
+let puntos = document.getElementById('puntos');
+let texto = document.getElementById('texto');
+let actual = 0;
+
+function mostrarImagen() {
+    imagen.innerHTML = `<img class="img" src="${imagenes[actual].url}" alt="Imagen carrusel" loading="lazy">`;
+    texto.innerHTML = `
+        <h3>${imagenes[actual].nombre}</h3>
+        <p>${imagenes[actual].descripcion}</p>
+    `;
+    posicionCarrusel();
+}
+
+function posicionCarrusel() {
+    puntos.innerHTML = "";
+    imagenes.forEach((_, i) => {
+        puntos.innerHTML += `<span class="${i === actual ? 'activo' : ''}">•</span>`;
+    });
+}
+
+atras.addEventListener('click', () => {
+    actual = (actual - 1 + imagenes.length) % imagenes.length;
+    mostrarImagen();
+});
+
+adelante.addEventListener('click', () => {
+    actual = (actual + 1) % imagenes.length;
+    mostrarImagen();
+});
+
+mostrarImagen();
+
+    </script>
 </body>
 </html>

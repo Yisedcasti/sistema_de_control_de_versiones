@@ -20,7 +20,7 @@ if (!isset($_SESSION['user'])) {
     <link rel="stylesheet" href="../../../ob.css"/>
     <title>Pagina Principal</title>
 </head>
-<body>
+<body> 
     <div class="d-flex" id="wrapper">
 
         <div class="listado" id="sidebar-wrapper">

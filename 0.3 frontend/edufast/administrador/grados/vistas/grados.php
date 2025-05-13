@@ -5,8 +5,11 @@ if (!isset($_SESSION['user'])) {
     header('Location: ../src/protected.php');
     exit;
 }
+include_once "../configuracion/conexion.php";
+include_once "../modelos/Grado.php"; // ajusta la ruta a donde tengas la clase
 
-include_once "consulta.php";
+$gradoModelo = new Grado($base_de_datos);
+$grados = $gradoModelo->obtenerTodos();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +23,19 @@ include_once "consulta.php";
     <link rel="stylesheet" href="../../../css/stylsadm.css"/>
     <title>Grados</title>
 </head>
-
+<style>
+.shadow{
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px !important;
+            }
+    .alert-success{
+        background-color:#dcfce7;
+        color:#016630;
+    }
+    .alert-danger{
+        background-color:#ffc9c9;
+        color:#9f0712;
+    }
+</style>
 <body>
     <div class="d-flex" id="wrapper">
     <div class="listado" id="sidebar-wrapper">
@@ -28,10 +43,7 @@ include_once "consulta.php";
             <div class="list-group list-group-flush my-3">
                 <a href="../../publicaciones/vistas/publicaciones_crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
                 <a href="../../jornadas/vistas/jornadas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Jornadas</a>
-                <a href="../../observador/vistas/alumnos.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Observador</a>
-                <a href="../../materiaphp/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
-                <a href="../../logrophp/logros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Logros</a>
-                <a href="../../actividad/actividad.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Actividades</a>
+                <a href="../../materiaphp/vistas/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
                 <a href="../../pag_principal.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Principal</a>
             </div>
         </div>
@@ -67,13 +79,19 @@ include_once "consulta.php";
 <?php
  if (isset($_GET['status'])) {
   if ($_GET['status'] == 'success') {
-      echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="autoCloseAlert">
-              ¡Accion realizada exitosamente!
+      echo '<div class="alert fs-4 alert-success alert-dismissible fade show" role="alert" id="autoCloseAlert">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32" class="me-2">
+  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+</svg>
+  ¡Accion realizada exitosamente!
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
   } elseif ($_GET['status'] == 'error') {
       echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="autoCloseAlert">
-              Algo salió mal. Por favor verifique los datos y vuelva a intentarlo.
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" class="me-2">
+  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+</svg>
+ Algo salió mal. Por favor verifique los datos y vuelva a intentarlo.
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
   }
@@ -81,26 +99,26 @@ include_once "consulta.php";
 ?>
                 <main class="main-container">
         <section class="container">
-            <h2>Grados Existentes</h2>
+            <h2 class="mb-4">Grados Existentes</h2>
             
             <table class="table shadow ">
                 <thead>
                     <tr>
                         <th class="text-center ">Grado</th>
-                        <th class="text-center ">Nivel eduacativo</th>
+                        <th class="text-center ">Nivel educativo</th>
                         <th class="text-center " colspan="2">Accion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr><?php foreach ($grados as $grado) : ?>
-                        <td class="text-center"><a class="text-reset" href="../../cursos/Curso.php?id_grado=<?php echo $grado->id_grado; ?>"><?php echo $grado->grado?></a></td>
+                        <td class="text-center"><a class="text-reset" href="../../Cursos/vistas/Curso.php?id_grado=<?php echo $grado->id_grado; ?>"><?php echo $grado->grado?></a></td>
                         <td class="text-center"><?php echo $grado->nivel_educativo?></td>
 
-                        <td class="text-center">
-                        <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#actualizar<?php echo $grado->id_grado ?>">Actualizar</a>
+                        <td class="actions">
+                        <a class="text-primary" data-bs-toggle="modal" data-bs-target="#actualizar<?php echo $grado->id_grado ?>">Actualizar</a>
                         </td>
                         <td class="actions">
-                        <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmarModal<?php echo $grado->id_grado ?>">Eliminar</a>
+                        <a  class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarModal<?php echo $grado->id_grado ?>">Eliminar</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -110,71 +128,110 @@ include_once "consulta.php";
             <a class="btn btn-dark Regular shadow" type="button" data-bs-toggle="modal" data-bs-target="#crear">Crear Grado</a>
         </div>
         </section>
-        <div class="modal fade" id="crear" tabindex="-1" aria-labelledby="crearLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="crearLabel">Crear Curso</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    <form class="formulario" action="../funciones/crear.php" method="POST">
-    <section class="nivel">
-        <p>Seleccione el nivel eduactivo</p>
-        <input type="radio" id="Primaria"value="Primaria" name="nivel_educativo">
-        <label for="Primaria">Primaria</label><br>
-        <input type="radio" id="Bachillerato" value="Bachillerato" name="nivel_educativo">
-        <label for="Bachillerato">Bachillerato</label><br>
-        <section class="grado">
-            <p>selecione los grados que tiene en Primaria</p>
-            <input type="checkbox" id="cero" value="0°" name="grado[]" >
-            <label for="cero"> 0º</label>
-            <input type="checkbox" id="primero" value="1°" name="grado[]">
-            <label for="primero"> 1º</label>
-            <input type="checkbox" id="segundo" value="2°" name="grado[]">
-            <label for="segundo"> 2º</label>
-            <input type="checkbox" id="tercero" value="3°" name="grado[]">
-            <label for="tercero"> 3º</label>
-            <input type="checkbox" id="cuarto" value="4°" name="grado[]">
-            <label for="cuarto"> 4º</label>
-            <input type="checkbox" id="quinto"value="5°" name="grado[]">
-            <label for="quinto"> 5º</label>
-        </section>
-        <section class="grado">
-            <p>Seleccione los grados que tiene en Bachillerato</p>
-                    <input type="checkbox" id="sexto" value="6°" name="grado[]">
-                    <label for="sexto"> 6º</label>
-                    <input type="checkbox" id="septimo" value="7°" name="grado[]">
-                    <label for="septimo"> 7º</label>
-                    <input type="checkbox" id="octavo" value="8°" name="grado[]">
-                    <label for="octavo"> 8º</label>
-                    <input type="checkbox" id="noveno" value="9°" name="grado[]">
-                    <label for="noveno"> 9º</label>
-                    <input type="checkbox" id="decimo" value="10°" name="grado[]">
-                    <label for="decimo"> 10º</label>
-                    <input type="checkbox" id="once" value="11°" name="grado[]">
-                    <label for="once"> 11º</label>
-        </section>
-    </section>
-    <section class="btn">
-        <input type="submit"name="insertar"value="Enviar">
-    </section>
-    </form>
-                    </div>
-                </div>
+
+<div class="modal fade" id="crear" tabindex="-1" aria-labelledby="crearLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <div class="modal-header">
+        <h5 class="modal-title title-center" id="crearLabel">Crear Grado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">
+        <form class="formulario" action="../controladores/grados_controlador.php" method="POST">
+          <input type="hidden" name="accion" value="crear">
+
+          <div class="mb-3">
+            <label class="form-label d-block">Seleccione el nivel educativo</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="Primaria" value="Primaria" name="nivel_educativo">
+              <label class="form-check-label" for="Primaria">Primaria</label>
             </div>
-        </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="Bachillerato" value="Bachillerato" name="nivel_educativo">
+              <label class="form-check-label" for="Bachillerato">Bachillerato</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label d-block">Seleccione los grados que tiene en Primaria</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="cero" value="0°" name="grado[]">
+              <label class="form-check-label" for="cero">0º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="primero" value="1°" name="grado[]">
+              <label class="form-check-label" for="primero">1º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="segundo" value="2°" name="grado[]">
+              <label class="form-check-label" for="segundo">2º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="tercero" value="3°" name="grado[]">
+              <label class="form-check-label" for="tercero">3º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="cuarto" value="4°" name="grado[]">
+              <label class="form-check-label" for="cuarto">4º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="quinto" value="5°" name="grado[]">
+              <label class="form-check-label" for="quinto">5º</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label d-block">Seleccione los grados que tiene en Bachillerato</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="sexto" value="6°" name="grado[]">
+              <label class="form-check-label" for="sexto">6º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="septimo" value="7°" name="grado[]">
+              <label class="form-check-label" for="septimo">7º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="octavo" value="8°" name="grado[]">
+              <label class="form-check-label" for="octavo">8º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="noveno" value="9°" name="grado[]">
+              <label class="form-check-label" for="noveno">9º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="decimo" value="10°" name="grado[]">
+              <label class="form-check-label" for="decimo">10º</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="once" value="11°" name="grado[]">
+              <label class="form-check-label" for="once">11º</label>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <input type="submit" name="insertar" value="Enviar" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
 
         <?php foreach($grados as $grado): ?>
 <div class="modal fade" id="actualizar<?php echo $grado->id_grado ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Actualizar Actividad</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Grado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formActualizar" method="POST" action="../funciones/Actualizar.php">
+                <form id="formActualizar" method="POST" action="../controladores/grados_controlador.php">
+                <input type="hidden" name="accion" value="actualizar">
                 <input type="hidden" name="id_grado" id="id_grado" value="<?php echo $grado->id_grado ?>">
               <select class="form-control" id="nivel_educativo" name="nivel_educativo">
                 <option <?= $grado->nivel_educativo == 'Primaria' ? 'selected' : '' ?>>Primaria</option>
@@ -221,7 +278,8 @@ include_once "consulta.php";
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form method="POST" action="../funciones/eliminar.php">
+                    <form method="POST" action="../controladores/grados_controlador.php">
+                    <input type="hidden" name="accion" value="eliminar">
                         <input type="hidden" name="id_grado" value="<?php echo $grado->id_grado ?>">
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>

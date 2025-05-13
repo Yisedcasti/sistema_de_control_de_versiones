@@ -10,9 +10,9 @@ if (!isset($_SESSION['user'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
+  
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8" /> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -31,8 +31,6 @@ if (!isset($_SESSION['user'])) {
             <a href="../../jornadas/vistas/jornadas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Jornadas</a>
                 <a href="../../grados/vistas/grados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Grados</a>
                 <a href="../../materiaphp/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
-                <a href="../../logrophp/logros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Logros</a>
-                <a href="../../actividad/actividad.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Actividades</a>
                 <a href="../../pag_principal.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Volver</a>
             </div>
         </div>
