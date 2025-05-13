@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-04-2025 a las 22:07:47
+-- Tiempo de generación: 13-05-2025 a las 22:41:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -44,8 +44,8 @@ CREATE TABLE `actividad` (
 --
 
 INSERT INTO `actividad` (`id_actividad`, `nombre_act`, `descripcion`, `fecha_entrega`, `docente_has_materia_docente_id_docente`, `docente_has_materia_materia_id_materia`, `logro_grado_id_grado`, `logro_id_logro`, `logro_materia_id_materia`) VALUES
-(1, 'Mi presentación en inglés', '1. Los estudiantes escribirán una presentación corta con frases como:\r\n\r\n\"Hello, my name is ____.\"\r\n\r\n\"I am ____ years old.\"\r\n\r\n\"I like ____.\"\r\n\r\n2. Luego, harán una presentación oral frente a la clase.', '2025-04-22', 1, 8, 6, 1002, 8),
-(2, 'Mi familia en inglés', '1. Los estudiantes escribirán una breve descripción de los miembros de su familia utilizando frases como:\r\n\r\n\"My father is ____.\"\r\n\r\n\"My mother is ____.\"\r\n\r\n\"I have ____ brothers and ____ sisters.\"\r\n\r\n2. Después, presentarán su descripción oralmente en clase.', '2025-04-25', 1, 8, 6, 1002, 8);
+(1, 'Mi presentación en inglés', '1. Los estudiantes escribirán una presentación corta con frases como:\r\n\r\n\"Hello, my name is ____.\"\r\n\r\n\"I am ____ years old.\"\r\n\r\n\"I like ____.\"\r\n\r\n2. Luego, harán una presentación oral frente a la clase.', '2025-04-22', 1, 8, 11, 1002, 8),
+(2, 'Mi familia en inglés', '1. Los estudiantes escribirán una breve descripción de los miembros de su familia utilizando frases como:\r\n\r\n\"My father is ____.\"\r\n\r\n\"My mother is ____.\"\r\n\r\n\"I have ____ brothers and ____ sisters.\"\r\n\r\n2. Después, presentarán su descripción oralmente en clase.', '2025-04-25', 1, 8, 11, 1002, 8);
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,8 @@ CREATE TABLE `asistencia` (
 
 INSERT INTO `asistencia` (`idAsistencia`, `fecha_asistencia`, `asistencia`, `matricula_id_matricula`, `matricula_grado_id_grado`, `matricula_cursos_id_cursos`, `matricula_estudiante_id_estudiante`, `matricula_estudiante_registro_num_doc`, `matricula_estudiante_registro_rol_id_rol`, `matricula_estudiante_registro_jornada_id_jornada`) VALUES
 (1, '2025-04-21', 'Presente', 3, 6, 7, 2, 1012366209, 6, 2),
-(2, '2025-04-08', 'Ausente', 3, 6, 7, 2, 1012366209, 6, 2);
+(2, '2025-04-08', 'Ausente', 3, 6, 7, 2, 1012366209, 6, 2),
+(3, '2025-05-11', 'Presente', 4, 6, 7, 4, 93481465, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,8 @@ INSERT INTO `cursos` (`id_cursos`, `curso`, `grado_id_grado`) VALUES
 (11, '901', 10),
 (12, '1001', 11),
 (13, '1101', 12),
-(14, '1102', 12);
+(14, '1102', 12),
+(17, '1002', 11);
 
 -- --------------------------------------------------------
 
@@ -164,7 +166,7 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`id_docente`, `profesion`, `registro_num_doc`, `registro_rol_id_rol`, `registro_jornada_id_jornada`) VALUES
-(1, 'Licenciado en ingles', 52762656, 5, 1),
+(1, 'Licenciado en ingles', 52762656, 4, 1),
 (2, 'Licenciado en español', 1012345678, 5, 2);
 
 -- --------------------------------------------------------
@@ -187,7 +189,7 @@ CREATE TABLE `docente_has_cursos` (
 --
 
 INSERT INTO `docente_has_cursos` (`docente_id_docente`, `docente_registro_num_doc`, `docente_registro_rol_id_rol`, `docente_registro_jornada_id_jornada`, `cursos_id_cursos`, `cursos_grado_id_grado`) VALUES
-(1, 52762656, 5, 1, 1, 1),
+(1, 52762656, 4, 1, 1, 1),
 (2, 1012345678, 5, 2, 7, 6);
 
 -- --------------------------------------------------------
@@ -235,7 +237,8 @@ CREATE TABLE `estudiante` (
 
 INSERT INTO `estudiante` (`id_estudiante`, `sexo`, `fecha_nacimiento`, `Eps`, `RH`, `NIvel_educativo`, `grado_cursado`, `Estado`, `registro_num_doc`, `registro_rol_id_rol`, `registro_jornada_id_jornada`) VALUES
 (2, 'F', '2008-01-03', 'Famisanar', 'O+', 'Primaria', '2º', 'Nuevo', 1012366209, 6, 2),
-(4, 'M', '2009-09-23', 'Sanitas', 'O+', 'Secundaria', '1°', 'Nuevo', 93481465, 6, 2);
+(4, 'M', '2009-09-23', 'Sanitas', 'O+', 'Secundaria', '1°', 'Nuevo', 93481465, 6, 2),
+(5, 'M', '2005-05-11', 'Sanitas', 'O+', 'Secundaria', '9°', 'Antiguo', 1028780775, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -265,8 +268,7 @@ INSERT INTO `grado` (`id_grado`, `nivel_educativo`, `grado`) VALUES
 (9, 'Bachillerato', '8°'),
 (10, 'Bachillerato', '9°'),
 (11, 'Bachillerato', '10°'),
-(12, 'Bachillerato', '11°'),
-(14, 'Bachilletato', '12°');
+(12, 'Bachillerato', '11°');
 
 -- --------------------------------------------------------
 
@@ -288,7 +290,7 @@ CREATE TABLE `jornada` (
 INSERT INTO `jornada` (`id_jornada`, `jornada`, `hora_inicio`, `hora_final`) VALUES
 (1, 'Sin jornada', NULL, NULL),
 (2, 'Mañana', '06:00:00', '11:50:00'),
-(3, 'Tarde', '12:00:00', '17:50:00');
+(3, 'Tarde', '12:00:00', '18:50:00');
 
 -- --------------------------------------------------------
 
@@ -310,7 +312,7 @@ CREATE TABLE `logro` (
 
 INSERT INTO `logro` (`id_logro`, `nombre_logro`, `descripcion_logro`, `grado_id_grado`, `materia_id_materia`) VALUES
 (1001, 'Explorador Musical del Ritmo', ' El estudiante reconoce y reproduce patrones rítmicos básicos mediante el uso de instrumentos de percusión y su propia voz, demostrando coordinación y creatividad en la interpretación musical.', 6, 6),
-(1002, 'Mejorando mi comprensión del inglés', 'Al finalizar el primer grado de inglés, los estudiantes serán capaces de reconocer y utilizar frases sencillas en inglés relacionadas con su entorno diario. Serán capaces de identificar al menos 20 pa', 6, 8);
+(1002, 'Mejorando mi comprensión del inglés', 'Al finalizar el primer grado de inglés, los estudiantes serán capaces de reconocer y utilizar frases sencillas en inglés relacionadas con su entorno diario. Serán capaces de identificar al menos 20 pa', 11, 8);
 
 -- --------------------------------------------------------
 
@@ -359,7 +361,8 @@ CREATE TABLE `matricula` (
 
 INSERT INTO `matricula` (`id_matricula`, `grado_id_grado`, `cursos_id_cursos`, `estudiante_id_estudiante`, `estudiante_registro_num_doc`, `estudiante_registro_rol_id_rol`, `estudiante_registro_jornada_id_jornada`) VALUES
 (3, 6, 7, 2, 1012366209, 6, 2),
-(4, 6, 7, 4, 93481465, 6, 2);
+(4, 6, 7, 4, 93481465, 6, 2),
+(5, 11, 17, 5, 1028780775, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -449,7 +452,8 @@ CREATE TABLE `observador` (
 
 INSERT INTO `observador` (`id_observador`, `num_doc`, `Tel_emergencia`, `padre_nombre`, `padre_apellido`, `padre_ocupacion`, `padre_cedula`, `padre_direccion`, `padre_telefono`, `padre_correo`, `madre_nombre`, `madre_apellido`, `madre_ocupacion`, `madre_cedula`, `madre_direccion`, `madre_telefono`, `madre_correo`, `acudiente_nombre`, `acudiente_apellido`, `acudiente_ocupacion`, `acudiente_cedula`, `acudiente_direccion`, `acudiente_telefono`, `acudiente_correo`) VALUES
 (1, 0, '3014390312', 'Jose Alfonso', 'Castiblanco Barrantes', 'Supervizor', '800250346', NULL, '3002668256', NULL, 'Luz Adriana', 'Herrera Gonzales', 'Guarda de seguridad', '52762656', NULL, '3014390312', NULL, 'Luz Adriana', 'Herrera Gonzales', 'Guarda de seguridad', '52762656', NULL, '3014390312', NULL),
-(2, 93481465, '3014390312', 'Jose Alfonso', 'Castiblanco', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A');
+(2, 93481465, '3014390312', 'Jose Alfonso', 'Castiblanco', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'),
+(3, 1028780775, '320439087', 'Albeiro', 'Castiblanco', 'N/A', '45903390', 'N/A', 'N/A', 'N/A', 'Luz', 'Herrera', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A');
 
 -- --------------------------------------------------------
 
@@ -470,8 +474,9 @@ CREATE TABLE `public_eventos` (
 --
 
 INSERT INTO `public_eventos` (`id_evento`, `img`, `evento`, `fecha_evento`, `registro_num_doc`) VALUES
-(1, 0x61653331343732332d386661652d346361642d393139392d3233363665323731336536662e6a666966, 'Paseo familiar ', '2025-04-27', 1141114912),
-(2, 0x61653331343732332d386661652d346361642d393139392d3233363665323731336536662e6a666966, 'Familia', '2025-04-25', 1141114912);
+(1, 0x646961206465206c6120636f6c6f6d6269616e696461642e61766966, 'Dia de la colombianidad', '2025-04-27', 1141114912),
+(2, 0x62616e64657261732e6a7067, 'Entrega de simbolos ', '2025-04-25', 1141114912),
+(3, 0x6261696c652e706e67, 'Tercer encuentro de Posters', '2024-06-05', 1141114912);
 
 -- --------------------------------------------------------
 
@@ -504,15 +509,15 @@ INSERT INTO `public_noticias` (`id_noticia`, `titulo`, `info`, `registro_num_doc
 
 CREATE TABLE `registro` (
   `num_doc` int(11) NOT NULL,
-  `tipo_doc` char(15) DEFAULT NULL,
+  `tipo_doc` char(15) NOT NULL,
   `foto_perfil` longblob DEFAULT NULL,
-  `nombres` char(45) DEFAULT NULL,
-  `apellidos` char(45) DEFAULT NULL,
-  `celular` char(12) DEFAULT NULL,
+  `nombres` char(45) NOT NULL,
+  `apellidos` char(45) NOT NULL,
+  `celular` char(12) NOT NULL,
   `telefono` char(15) DEFAULT NULL,
-  `direccion` char(45) DEFAULT NULL,
-  `correo` char(45) DEFAULT NULL,
-  `pass` char(200) DEFAULT NULL,
+  `direccion` char(45) NOT NULL,
+  `correo` char(45) NOT NULL,
+  `pass` char(200) NOT NULL,
   `rol_id_rol` int(11) NOT NULL,
   `jornada_id_jornada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -522,14 +527,19 @@ CREATE TABLE `registro` (
 --
 
 INSERT INTO `registro` (`num_doc`, `tipo_doc`, `foto_perfil`, `nombres`, `apellidos`, `celular`, `telefono`, `direccion`, `correo`, `pass`, `rol_id_rol`, `jornada_id_jornada`) VALUES
-(52762656, 'CC', 0x363830383930656335643165345f696d616765732e6a666966, 'Luz Adriana', 'Herrera Gonzales', '3014390312', '3014390', 'Kr80 # 66 - 58', 'adriana@gmail.com', '$2y$10$juJz5eu4Zz7ll76z2snGS.8U5HPF.iLvX.l6KXGfc.7WCkhOx7x6K', 5, 1),
+(52762656, 'CC', 0x363830383930656335643165345f696d616765732e6a666966, 'Luz Adriana', 'Herrera Gonzales', '3014390312', '3014390', 'Kr80 # 66 - 58', 'adriana@gmail.com', '$2y$10$juJz5eu4Zz7ll76z2snGS.8U5HPF.iLvX.l6KXGfc.7WCkhOx7x6K', 4, 1),
+(76459033, 'CC', 0x363831366634623638373835645f39653636663565642d323731632d346338662d396363332d6633336662303836326337382e6a666966, 'Laura Sofia', 'Ramirez Lopez', '3213675466', '', 'Calle 123 #45-67, Bogotá', 'yised@gmail.com', '$2y$10$A7gUCobpzMYNsDoeGK4MZO//gWDrdujA1oloFSO9HX8RVktrV6xIK', 1, 1),
 (93481465, 'CC', 0x363830393434636330303335365f39653636663565642d323731632d346338662d396363332d6633336662303836326337382e6a666966, 'Javier', 'Yara', '3202364445', '1234567', 'Calle 123 #45-67, Bogotá, Colombia', 'yised@gmail.com', '$2y$10$lPmA9jGvx6zXLM9AZPRH1.IqcDCfy/oemo9Py9KVKCCqA2k.XyGEi', 6, 2),
+(101418999, 'CC', NULL, 'Juan Esteban', 'Becerra Genez', '3045673209', '', 'Kr80 # 66 - 58', 'becerra@gmail.com', '$2y$10$8RGkwkxjhMds.6rXN/qDn.IoJkw1oux79NwIcMJQnYaF7qFe/VRIu', 5, 1),
+(800250346, 'CC', NULL, 'Jose Alfonso', 'Castiblanco Barrantes', '3002668256', '', 'Calle 123 #45-67, Bogotá', 'jose@gmail.com', '$2y$10$1HefUljcr6aROMqF05xfuu591/PVIugjP5ypJNXJXsZk6UbWMc7se', 2, 1),
 (1012345678, 'CC', 0x363830383963613532353835385f696d616765732e6a666966, 'Laura Sofia', 'Ramirez Lopez', '3004567890', '6014567', 'Calle 123 #45-67, Bogotá', 'laura.ramirez@example.com', '$2y$10$W0P.nbWjD7wNTWD7NKxGUuCgqq0Qg0u6W3z.jFf6XxiO/vnRbl.Gm', 5, 2),
-(1012366209, 'TI', 0x363765636166306336393132305f49372d31302d32342e6a7067, 'Johan Stiven', 'Castiblanco Herrera', '3213675463', '1111111', 'CLL 80', 'johan@gmail.com', '$2y$10$rYcAAuqd5I5jBw9AwF5MIusCD1CWXQ2kpvc2KGzM9AH8KYi.vB5Zq', 6, 2),
-(1028780775, 'CC', 0x363830393339373137633966305f696d616765732e6a666966, 'Darikson', 'Leon', '3045673209', '5499009', 'Calle 123 #45-67, Bogotá, Colombia', 'darikson@gmail.com', '$2y$10$bjskuvsjzcqZowBhDx6DPumL4TGhWLrzFd1FuezzLzExBgciLLuzq', 6, 1),
+(1012366209, 'TI', 0x6a6f76656e2e6a7067, 'Johan Stiven', 'Castiblanco Herrera', '3213675463', '1111111', 'CLL 80', 'johan@gmail.com', '$2y$10$rYcAAuqd5I5jBw9AwF5MIusCD1CWXQ2kpvc2KGzM9AH8KYi.vB5Zq', 6, 2),
+(1014923702, 'CC', NULL, 'Englis Alexander', 'Barros Osuna', '3143953786', '', 'Calle 123 #45-67, Bogotá, Colombia', 'englis@gmail.com', '$2y$10$gLXjWsfA.W0F1SctQmSg6Oen4XTaxD4SXqCvQ6xhQWDMGLXbI4gMW', 4, 1),
+(1016950742, 'TI', NULL, 'Cristiam David', 'Cadena Gutierrez', '3045673209', '', 'Calle 123 #45-67, Bogotá', 'cristiam@gmail.com', '$2y$10$3Ypdvsy/KJITJAR8mRH2reKbeLoJIQVdxubfos3id/QElNLcnSzh2', 3, 1),
+(1022340806, 'CC', NULL, 'Johan Stiven', 'Rodriguez Vargas', '3045673209', '', 'Calle 123 #45-67, Bogotá, Colombia', 'johan@gmail.com', '$2y$10$xPVwgCBi4Hy3StvZAnno9.9Vy/Zzrmj4STR9ftnpRYlC13/sV0I96', 3, 1),
+(1028780775, 'CC', 0x686f6d6272652e77656270, 'Darikson', 'Leon', '3045673209', '5499009', 'Calle 123 #45-67, Bogotá, Colombia', 'darikson@gmail.com', '$2y$10$bjskuvsjzcqZowBhDx6DPumL4TGhWLrzFd1FuezzLzExBgciLLuzq', 6, 1),
 (1141114912, 'CC', 0x363765633630613763353661625f496d6167656e20646520576861747341707020323032352d30332d31342061206c61732031352e34352e31355f35346234306366302e6a7067, 'Yised Dayana', 'Castiblanco Herrera', '3213675463', '3213675', 'CLL 80', 'dylan@gmail.com', '$2y$10$VJw/yeK.oYDiqGMOiTHBYuYQ2c8zco8AlQStN6cdLghXfvAzrkK9K', 1, 1),
-(1234567890, 'CC', 0x363830386262636530303935345f696d616765732e6a666966, 'Juan Carlos', 'Perez Garcia', '3101234567', '6012345', 'Calle 123 #45-67, Bogotá, Colombia', 'juancarlos.perez@email.com', '$2y$10$BHbDYRBr3cxfMz0Ilm58B./4sl49jxFooVR/pjViIP0wEsFGJeoSK', 2, 1),
-(1234567891, 'CC', 0x363830656436636661333262635f39653636663565642d323731632d346338662d396363332d6633336662303836326337382e6a666966, 'Laura Sofia', 'Ramirez Lopez', '3213675466', '0', 'Calle 123 #45-67, Bogotá', 'yised@gmail.com', '$2y$10$UeDrJ3k3VzTwoAx6evZZbOazA6kUK7WETSQHs26xGxugu86Fv5GIe', 2, 1);
+(1234567890, 'CC', 0x363830386262636530303935345f696d616765732e6a666966, 'Juan Carlos', 'Perez Garcia', '3101234567', '6012345', 'Calle 123 #45-67, Bogotá, Colombia', 'juancarlos.perez@email.com', '$2y$10$BHbDYRBr3cxfMz0Ilm58B./4sl49jxFooVR/pjViIP0wEsFGJeoSK', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -730,7 +740,7 @@ ALTER TABLE `area`
 -- AUTO_INCREMENT de la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  MODIFY `idAsistencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idAsistencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `boletin`
@@ -742,7 +752,7 @@ ALTER TABLE `boletin`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id_cursos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_cursos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`
@@ -754,19 +764,19 @@ ALTER TABLE `docente`
 -- AUTO_INCREMENT de la tabla `estudiante`
 --
 ALTER TABLE `estudiante`
-  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `grado`
 --
 ALTER TABLE `grado`
-  MODIFY `id_grado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_grado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `jornada`
 --
 ALTER TABLE `jornada`
-  MODIFY `id_jornada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_jornada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -778,7 +788,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `nota`
@@ -796,13 +806,13 @@ ALTER TABLE `observacion`
 -- AUTO_INCREMENT de la tabla `observador`
 --
 ALTER TABLE `observador`
-  MODIFY `id_observador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_observador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `public_eventos`
 --
 ALTER TABLE `public_eventos`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `public_noticias`
