@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../csscoordinador/jornadasCrear.css">
+    <title>jornadas</title>
+</head>
+<body>
+    <header class="containernav">
+        <figure class="logo">
+            <img src="../../imagenes/logo.png" alt="logo">
+            <h2>EDUFAST</h2>
+        </figure>
+            <nav>
+                <a href="../jornadas.html" class="item-options">volver</a>
+            </nav>
+        
+    </header>
+   <main class="main-container">
+    <header>
+        <h1>CREAR JORNADAS</h1>
+    </header>
+    <form class="formulario" action="">
+    <section class="jornada">
+        <p>Seleccione la jornada</p>
+        <input type="radio" id="Mañana" name="jornada" >
+        <label for="Mañana">Mañana</label><br>
+    
+        <input type="radio" id="Tarde" name="jornada">
+        <label for="Tarde">Tarde</label><br>
+    
+        <input type="radio" id="Noche" name="jornada">
+        <label for="Noche">Noche</label><br>
+    </section>
+    <section class="time">
+        <label for="star-time">Hora de Inicio:</label>
+        <input type="time" id="star-time" name="star-time" >
+    </section>
+    <section class="time">
+        <label for="end-time">Hora final:</label>
+        <input type="time" id="end-time" name="end-time" >
+    </section>
+    <section class="btn">
+        <input type="submit"name="insertar"value="Enviar">
+    </section>
+    </form>
+
+   </main>
+	
+    
+</body>
+</html>

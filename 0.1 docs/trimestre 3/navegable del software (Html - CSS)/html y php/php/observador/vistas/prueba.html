@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Grado y Curso</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Formulario de Grados y Cursos</h1>
+    <form action="procesar_formulario.php" method="POST" class="shadow p-4 rounded bg-light">
+        <div class="mb-3">
+            <label for="grado" class="form-label">Grado</label>
+            <select name="grado" id="grado" class="form-select" required>
+                <option value="" disabled selected>Seleccione un grado</option>
+                <option value='1'>Grado 1</option>
+                <option value='2'>Grado 2</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="curso" class="form-label">Curso</label>
+            <select name="curso" id="curso" class="form-select" required>
+                <option value="" disabled selected>Seleccione un curso</option>
+                <option value='A'>Curso A</option>
+                <option value='B'>Curso B</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Formulario de Registro</h1>
+    <form action="procesar_formulario.php" method="POST" class="shadow p-4 rounded bg-light">
+        <!-- Campo Sexo -->
+        <div class="mb-3">
+            <label for="sexo" class="form-label">Sexo</label>
+            <select name="sexo" id="sexo" class="form-select" required>
+                <option value="" disabled selected>Seleccione el sexo</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+                <option value="O">Otro</option>
+            </select>
+        </div>
+        <!-- Campo Fecha de Nacimiento -->
+        <div class="mb-3">
+            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" required 
+                   oninput="validarFechaNacimiento()">
+            <div id="error_fecha_nacimiento" class="text-danger mt-1"></div>
+        </div>
+        <!-- Campo EPS -->
+        <div class="mb-3">
+            <label for="eps" class="form-label">EPS</label>
+            <select name="eps" id="eps" class="form-select" required>
+                <option value="" disabled selected>Seleccione la EPS</option>
+                <option value="1">EPS 1</option>
+                <option value="2">EPS 2</option>
+                <option value="3">EPS 3</option>
+                <!-- Agrega más opciones según tu base de datos -->
+            </select>
+        </div>
+        <!-- Campo RH -->
+        <div class="mb-3">
+            <label for="rh" class="form-label">RH</label>
+            <select name="rh" id="rh" class="form-select" required>
+                <option value="" disabled selected>Seleccione el RH</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+        </div>
+        <!-- Campo Nivel Educativo -->
+        <div class="mb-3">
+            <label for="nivel_educativo" class="form-label">Nivel Educativo</label>
+            <select name="nivel_educativo" id="nivel_educativo" class="form-select" required>
+                <option value="" disabled selected>Seleccione el nivel educativo</option>
+                <option value="Primaria">Primaria</option>
+                <option value="Secundaria">Secundaria</option>
+                <option value="Técnico">Técnico</option>
+                <option value="Tecnólogo">Tecnólogo</option>
+                <option value="Universitario">Universitario</option>
+            </select>
+        </div>
+        <!-- Campo Estado -->
+        <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select name="estado" id="estado" class="form-select" required>
+                <option value="" disabled selected>Seleccione el estado</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
+        </div>
+        <!-- Botón Enviar -->
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+    </div>
+
+</body>
+<script>
+    // Validar fecha de naAcimiento
+    function validarFechaNacimiento() {
+        const fechaInput = document.getElementById("fecha_nacimiento");
+        const mensajeError = document.getElementById("error_fecha_nacimiento");
+        const fechaSeleccionada = new Date(fechaInput.value);
+        const hoy = new Date();
+        const edadMinima = new Date(hoy.getFullYear() - 4, hoy.getMonth(), hoy.getDate());
+        
+        if (fechaSeleccionada >= hoy || fechaSeleccionada > edadMinima) {
+            mensajeError.textContent = "La fecha de nacimiento no es válida. Debe ser al menos 4 años menor que hoy.";
+            fechaInput.classList.add("is-invalid");
+        } else {
+            mensajeError.textContent = "";
+            fechaInput.classList.remove("is-invalid");
+        }
+    }
+</script>
+</html>

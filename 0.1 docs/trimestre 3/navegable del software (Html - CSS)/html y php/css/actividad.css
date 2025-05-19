@@ -1,0 +1,14 @@
+
+.card {
+    background:linear-gradient(to bottom right,#8FB8DE, #A4C3B2)
+}
+
+
+.main-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    
+}

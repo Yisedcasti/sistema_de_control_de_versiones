@@ -1,0 +1,235 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: serif;
+  display: flex;
+  background-color: #EAF4F4;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.containernav {
+  width: 100%;
+  height: 75px;
+  background: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem; 
+  box-sizing: border-box;
+  position: sticky;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 68px;
+  height: 68px;
+  margin-right: 10px;
+}
+
+.logo h2 {
+  font-family: 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+  font-size: 30px;
+  color: #f1f1f1;
+  margin: 0;
+}
+
+.item-options{
+  font-size: 17px;
+  font-family: serif;
+text-transform: uppercase;
+color: white;
+  margin: 0 9px;
+text-decoration: none;
+line-height: 50px;
+position: relative;
+z-index: 1;
+display: inline-block;
+text-align: center;
+}
+
+.main-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+}
+.menu-horizontal {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin-left: -10%;
+}
+
+.menu-horizontal > li > a {
+  display: block;
+  padding: 15px 20px;
+  font-size: 17px;
+  color: white;
+  text-decoration: none;
+}
+
+.menu-vertical {
+  position: absolute;
+  display: none;
+  list-style: none;
+  width: auto;
+  background-color: rgba(0, 0, 0, .5);
+  margin-left: 0; 
+  padding: 0; 
+}
+
+.menu-horizontal li:hover .menu-vertical {
+  display: block;
+}
+
+.menu-vertical li {
+  width: 100%;
+}
+
+.menu-vertical li:hover {
+  background-color: black;
+}
+
+.menu-vertical li a {
+  display: block;
+  color: white;
+  font-size: 17px;
+  text-decoration: none;
+  padding: 15px 20px; 
+  margin-left: 0; 
+}
+
+
+.containerRegistro{
+  max-width: 700px;
+  width: 100%;
+  padding: 25px 30px;
+  background: linear-gradient(to bottom right,#8FB8DE, #7f7b82);
+  color:#000;
+  border-radius: 8px;
+  border: 1px solid black;
+  margin: 40px 0px;
+  display: flex;
+
+}
+.containerRegistro .title h2{
+  font-size: 35px;
+  font-weight: 500;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+}
+
+.containerRegistro form{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 10px 12px 0px;
+} 
+
+form .formGroup{
+  margin-bottom: 15px;
+  width: calc(100%/2 - 20px)
+}
+
+form span {
+  display: block;
+  font-weight: 500;
+  font-size:16px;
+  font-family: serif;
+  margin-bottom: 5px;
+}
+
+.formGroup input,
+.formGroup select { 
+  height: 40px;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, .5);
+  padding-left: 15px;
+  transition: all 0.3s ease;
+}
+.formGroup input:focus,
+.formGroup input:valid,
+.formGroup select:focus,
+.formGroup select:valid{
+  border-color: #7f7b82;
+  border-bottom-width: 7px;
+}
+
+form .button{
+width: 65%;
+height: 100%;
+margin: 10px 0px;
+}
+form .button input{
+  width:65% ;
+  height: 100%;
+  outline:none;
+  cursor: pointer;
+  margin:0px 190px ;
+  background-color: #000;
+  color: white;
+  font-size: 30px;
+  font-family: serif;
+  font-weight: 500;
+  border: none; 
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+form .button input:hover{
+  background-color: #444;
+}
+
+.socials {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socials a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.socials a i {
+  font-size: 17px;
+  padding: 0px 20px;
+  transition: color .4s ease;
+}
+
+.socials a:hover i {
+  color: hsl(274, 100%, 51%);
+}
+
+.footer-bottom {
+  background: #000;
+  width: 100%; 
+  padding: 20px 0;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.footer-bottom p {
+  font-size: 14px;
+  color: white;
+  word-spacing: 2px;
+  text-transform: capitalize;
+}
+
+.footer-bottom span {
+  text-transform: uppercase;
+  opacity: .4;
+  font-weight: 200;
+}
