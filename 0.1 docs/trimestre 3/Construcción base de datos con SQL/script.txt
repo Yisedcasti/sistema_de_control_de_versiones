@@ -242,6 +242,1145 @@ CREATE TABLE `rol` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+______________________________________________________________________________________
+
+PROCEDIMIENTOS ALMACENADOS 
+
+
+--- ACTIVIDAD
+
+DELIMITER $$
+CREATE PROCEDURE CrearActividad (
+  IN p_nombre_act CHAR(100),
+  IN p_descripcion VARCHAR(1300),
+  IN p_fecha_entrega DATE,
+  IN p_docente_id INT,
+  IN p_materia_id INT,
+  IN p_grado_id INT,
+  IN p_logro_id INT,
+  IN p_logro_materia_id INT
+)
+BEGIN
+  INSERT INTO actividad (
+    nombre_act, descripcion, fecha_entrega,
+    docente_has_materia_docente_id_docente,
+    docente_has_materia_materia_id_materia,
+    logro_grado_id_grado, logro_id_logro, logro_materia_id_materia
+  ) VALUES (
+    p_nombre_act, p_descripcion, p_fecha_entrega,
+    p_docente_id, p_materia_id, p_grado_id, p_logro_id, p_logro_materia_id
+  );
+END $$
+
+
+CREATE PROCEDURE ObtenerActividades()
+BEGIN
+  SELECT * FROM actividad;
+END $$
+
+
+CREATE PROCEDURE ActualizarActividad (
+  IN p_id INT,
+  IN p_nombre_act CHAR(100),
+  IN p_descripcion VARCHAR(1300),
+  IN p_fecha_entrega DATE
+)
+BEGIN
+  UPDATE actividad
+  SET nombre_act = p_nombre_act,
+      descripcion = p_descripcion,
+      fecha_entrega = p_fecha_entrega
+  WHERE id_actividad = p_id;
+END $$
+
+CREATE PROCEDURE EliminarActividad (IN p_id INT)
+BEGIN
+  DELETE FROM actividad WHERE id_actividad = p_id;
+END $$
+DELIMITER ;
+
+-- AREA
+
+DELIMITER $$
+CREATE PROCEDURE CrearArea (
+  IN p_nombre_area CHAR(45)
+)
+BEGIN
+  INSERT INTO area (nombre_area) VALUES (p_nombre_area);
+END $$
+
+CREATE PROCEDURE ObtenerAreas()
+BEGIN
+  SELECT * FROM area;
+END $$
+
+
+CREATE PROCEDURE ActualizarArea (
+  IN p_id_area INT,
+  IN p_nombre_area CHAR(45)
+)
+BEGIN
+  UPDATE area
+  SET nombre_area = p_nombre_area
+  WHERE id_area = p_id_area;
+END $$
+
+
+CREATE PROCEDURE EliminarArea (IN p_id_area INT)
+BEGIN
+  DELETE FROM area WHERE id_area = p_id_area;
+END $$
+DELIMITER ;
+
+____ ASISTENCIA 
+
+
+DELIMITER $$
+CREATE PROCEDURE CrearAsistencia (
+  IN p_fecha DATE,
+  IN p_estado CHAR(10),
+  IN p_id_matricula INT,
+  IN p_id_grado INT,
+  IN p_id_cursos INT,
+  IN p_id_estudiante INT,
+  IN p_num_doc INT,
+  IN p_id_rol INT,
+  IN p_id_jornada INT
+)
+BEGIN
+  INSERT INTO asistencia (
+    fecha_asistencia, asistencia,
+    matricula_id_matricula, matricula_grado_id_grado,
+    matricula_cursos_id_cursos, matricula_estudiante_id_estudiante,
+    matricula_estudiante_registro_num_doc,
+    matricula_estudiante_registro_rol_id_rol,
+    matricula_estudiante_registro_jornada_id_jornada
+  ) VALUES (
+    p_fecha, p_estado,
+    p_id_matricula, p_id_grado, p_id_cursos,
+    p_id_estudiante, p_num_doc, p_id_rol, p_id_jornada
+  );
+END $$
+
+CREATE PROCEDURE ObtenerAsistencias()
+BEGIN
+  SELECT * FROM asistencia;
+END $$
+
+CREATE PROCEDURE ActualizarAsistencia (
+  IN p_id_asistencia INT,
+  IN p_fecha DATE,
+  IN p_estado CHAR(10)
+)
+BEGIN
+  UPDATE asistencia
+  SET fecha_asistencia = p_fecha,
+      asistencia = p_estado
+  WHERE idAsistencia = p_id_asistencia;
+END $$
+
+CREATE PROCEDURE EliminarAsistencia (IN p_id_asistencia INT)
+BEGIN
+  DELETE FROM asistencia WHERE idAsistencia = p_id_asistencia;
+END $$
+DELIMITER ;
+
+___ BOLETIN 
+
+DELIMITER $$
+CREATE PROCEDURE CrearBoletin (
+  IN p_periodo CHAR(10),
+  IN p_puesto CHAR(10),
+  IN p_fecha DATE,
+  IN p_anio CHAR(10),
+  IN p_id_obs INT,
+  IN p_id_nota INT,
+  IN p_id_matricula INT,
+  IN p_id_actividad INT
+)
+BEGIN
+  INSERT INTO boletin (
+    periodo, puesto, fechaBoletin, añoBoletin,
+    Observacion_idObservacion, nota_id_nota,
+    nota_matricula_id_matricula, nota_actividad_id_actividad
+  ) VALUES (
+    p_periodo, p_puesto, p_fecha, p_anio,
+    p_id_obs, p_id_nota, p_id_matricula, p_id_actividad
+  );
+END $$
+
+CREATE PROCEDURE ObtenerBoletines()
+BEGIN
+  SELECT * FROM boletin;
+END $$
+
+CREATE PROCEDURE ActualizarBoletin (
+  IN p_id INT,
+  IN p_periodo CHAR(10),
+  IN p_puesto CHAR(10),
+  IN p_fecha DATE,
+  IN p_anio CHAR(10)
+)
+BEGIN
+  UPDATE boletin
+  SET periodo = p_periodo,
+      puesto = p_puesto,
+      fechaBoletin = p_fecha,
+      añoBoletin = p_anio
+  WHERE id_boletin = p_id;
+END $$
+
+
+CREATE PROCEDURE EliminarBoletin (IN p_id INT)
+BEGIN
+  DELETE FROM boletin WHERE id_boletin = p_id;
+END $$
+DELIMITER ;
+
+______ CURSOS
+
+
+DELIMITER $$
+CREATE PROCEDURE CrearCurso (
+  IN p_curso CHAR(10),
+  IN p_id_grado INT
+)
+BEGIN
+  INSERT INTO cursos (curso, grado_id_grado) VALUES (p_curso, p_id_grado);
+END $$
+
+
+CREATE PROCEDURE ObtenerCursos()
+BEGIN
+  SELECT * FROM cursos;
+END $$
+
+CREATE PROCEDURE ActualizarCurso (
+  IN p_id INT,
+  IN p_curso CHAR(10)
+)
+BEGIN
+  UPDATE cursos SET curso = p_curso WHERE id_cursos = p_id;
+END $$
+
+CREATE PROCEDURE EliminarCurso (IN p_id INT)
+BEGIN
+  DELETE FROM cursos WHERE id_cursos = p_id;
+END $$
+DELIMITER ;
+
+_____ DOCENTE
+ 
+
+DELIMITER $$
+CREATE PROCEDURE CrearDocente (
+  IN p_profesion CHAR(45),
+  IN p_num_doc INT,
+  IN p_id_rol INT,
+  IN p_id_jornada INT
+)
+BEGIN
+  INSERT INTO docente (
+    profesion, registro_num_doc,
+    registro_rol_id_rol, registro_jornada_id_jornada
+  ) VALUES (
+    p_profesion, p_num_doc, p_id_rol, p_id_jornada
+  );
+END $$
+
+CREATE PROCEDURE ObtenerDocentes()
+BEGIN
+  SELECT * FROM docente;
+END $$
+
+
+CREATE PROCEDURE ActualizarDocente (
+  IN p_id INT,
+  IN p_profesion CHAR(45)
+)
+BEGIN
+  UPDATE docente SET profesion = p_profesion WHERE id_docente = p_id;
+END $$
+
+CREATE PROCEDURE EliminarDocente (IN p_id INT)
+BEGIN
+  DELETE FROM docente WHERE id_docente = p_id;
+END $$
+DELIMITER ;
+
+
+__ESTUDIANTE 
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertarEstudiante(
+    IN p_sexo CHAR(10),
+    IN p_fecha_nacimiento DATE,
+    IN p_eps VARCHAR(45),
+    IN p_rh CHAR(10),
+    IN p_nivel_educativo CHAR(45),
+    IN p_grado_cursado CHAR(15),
+    IN p_estado CHAR(25),
+    IN p_registro_num_doc INT,
+    IN p_registro_rol_id_rol INT,
+    IN p_registro_jornada_id_jornada INT
+)
+BEGIN
+    INSERT INTO estudiante(
+        sexo, fecha_nacimiento, Eps, RH, NIvel_educativo, grado_cursado, Estado,
+        registro_num_doc, registro_rol_id_rol, registro_jornada_id_jornada
+    )
+    VALUES (
+        p_sexo, p_fecha_nacimiento, p_eps, p_rh, p_nivel_educativo, p_grado_cursado, p_estado,
+        p_registro_num_doc, p_registro_rol_id_rol, p_registro_jornada_id_jornada
+    );
+END $$
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerEstudiantes()
+BEGIN
+    SELECT * FROM estudiante;
+END $$
+
+CREATE PROCEDURE ActualizarEstudiante(
+    IN p_id_estudiante INT,
+    IN p_sexo CHAR(10),
+    IN p_fecha_nacimiento DATE,
+    IN p_eps VARCHAR(45),
+    IN p_rh CHAR(10),
+    IN p_nivel_educativo CHAR(45),
+    IN p_grado_cursado CHAR(15),
+    IN p_estado CHAR(25),
+    IN p_registro_num_doc INT,
+    IN p_registro_rol_id_rol INT,
+    IN p_registro_jornada_id_jornada INT
+)
+BEGIN
+    UPDATE estudiante
+    SET 
+        sexo = p_sexo,
+        fecha_nacimiento = p_fecha_nacimiento,
+        Eps = p_eps,
+        RH = p_rh,
+        NIvel_educativo = p_nivel_educativo,
+        grado_cursado = p_grado_cursado,
+        Estado = p_estado,
+        registro_num_doc = p_registro_num_doc,
+        registro_rol_id_rol = p_registro_rol_id_rol,
+        registro_jornada_id_jornada = p_registro_jornada_id_jornada
+    WHERE id_estudiante = p_id_estudiante;
+END $$
+
+
+CREATE PROCEDURE EliminarEstudiante(IN p_id_estudiante INT)
+BEGIN
+    DELETE FROM estudiante WHERE id_estudiante = p_id_estudiante;
+END $$
+
+DELIMITER ;
+
+
+____GRADO 
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertarGrado(
+    IN p_id_grado INT,
+    IN p_nivel_educativo CHAR(45),
+    IN p_grado CHAR(10)
+)
+BEGIN
+    INSERT INTO grado(id_grado, nivel_educativo, grado)
+    VALUES (p_id_grado, p_nivel_educativo, p_grado);
+END $$
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerGrados()
+BEGIN
+    SELECT * FROM grado;
+END $$
+
+DELIMITER ;
+
+
+CREATE PROCEDURE ActualizarGrado(
+    IN p_id_grado INT,
+    IN p_nivel_educativo CHAR(45),
+    IN p_grado CHAR(10)
+)
+BEGIN
+    UPDATE grado
+    SET
+        nivel_educativo = p_nivel_educativo,
+        grado = p_grado
+    WHERE id_grado = p_id_grado;
+END $$
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE EliminarGrado(IN p_id_grado INT)
+BEGIN
+    DELETE FROM grado WHERE id_grado = p_id_grado;
+END $$
+
+
+
+___ JORNADA 
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertarJornada(
+    IN p_id_jornada INT,
+    IN p_jornada CHAR(20),
+    IN p_hora_inicio TIME,
+    IN p_hora_final TIME
+)
+BEGIN
+    INSERT INTO jornada(id_jornada, jornada, hora_inicio, hora_final)
+    VALUES (p_id_jornada, p_jornada, p_hora_inicio, p_hora_final);
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerJornadas()
+BEGIN
+    SELECT * FROM jornada;
+END $$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ActualizarJornada(
+    IN p_id_jornada INT,
+    IN p_jornada CHAR(20),
+    IN p_hora_inicio TIME,
+    IN p_hora_final TIME
+)
+BEGIN
+    UPDATE jornada
+    SET
+        jornada = p_jornada,
+        hora_inicio = p_hora_inicio,
+        hora_final = p_hora_final
+    WHERE id_jornada = p_id_jornada;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE EliminarJornada(IN p_id_jornada INT)
+BEGIN
+    DELETE FROM jornada WHERE id_jornada = p_id_jornada;
+END $$
+
+DELIMITER ;
+
+
+___LOGRO
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertarLogro(
+    IN p_id_logro INT,
+    IN p_nombre_logro CHAR(100),
+    IN p_descripcion_logro CHAR(200),
+    IN p_grado_id_grado INT,
+    IN p_materia_id_materia INT
+)
+BEGIN
+    INSERT INTO logro(
+        id_logro, nombre_logro, descripcion_logro,
+        grado_id_grado, materia_id_materia
+    )
+    VALUES (
+        p_id_logro, p_nombre_logro, p_descripcion_logro,
+        p_grado_id_grado, p_materia_id_materia
+    );
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerLogros()
+BEGIN
+    SELECT * FROM logro;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ActualizarLogro(
+    IN p_id_logro INT,
+    IN p_nombre_logro CHAR(100),
+    IN p_descripcion_logro CHAR(200),
+    IN p_grado_id_grado INT,
+    IN p_materia_id_materia INT
+)
+BEGIN
+    UPDATE logro
+    SET
+        nombre_logro = p_nombre_logro,
+        descripcion_logro = p_descripcion_logro,
+        grado_id_grado = p_grado_id_grado,
+        materia_id_materia = p_materia_id_materia
+    WHERE id_logro = p_id_logro;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE EliminarLogro(IN p_id_logro INT)
+BEGIN
+    DELETE FROM logro WHERE id_logro = p_id_logro;
+END $$
+
+DELIMITER ;
+
+
+
+__MATERIAS
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertarMateria(
+    IN p_id_materia INT,
+    IN p_materia CHAR(45),
+    IN p_area_id_area INT
+)
+BEGIN
+    INSERT INTO materia(id_materia, materia, area_id_area)
+    VALUES (p_id_materia, p_materia, p_area_id_area);
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerMaterias()
+BEGIN
+    SELECT * FROM materia;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ActualizarMateria(
+    IN p_id_materia INT,
+    IN p_materia CHAR(45),
+    IN p_area_id_area INT
+)
+BEGIN
+    UPDATE materia
+    SET
+        materia = p_materia,
+        area_id_area = p_area_id_area
+    WHERE id_materia = p_id_materia;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE EliminarMateria(IN p_id_materia INT)
+BEGIN
+    DELETE FROM materia WHERE id_materia = p_id_materia;
+END $$
+
+DELIMITER ;
+
+
+___MATRICULA 
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertarMatricula(
+    IN p_id_matricula INT,
+    IN p_grado_id_grado INT,
+    IN p_cursos_id_cursos INT,
+    IN p_estudiante_id_estudiante INT,
+    IN p_estudiante_registro_num_doc INT,
+    IN p_estudiante_registro_rol_id_rol INT,
+    IN p_estudiante_registro_jornada_id_jornada INT
+)
+BEGIN
+    INSERT INTO matricula(
+        id_matricula,
+        grado_id_grado,
+        cursos_id_cursos,
+        estudiante_id_estudiante,
+        estudiante_registro_num_doc,
+        estudiante_registro_rol_id_rol,
+        estudiante_registro_jornada_id_jornada
+    )
+    VALUES (
+        p_id_matricula,
+        p_grado_id_grado,
+        p_cursos_id_cursos,
+        p_estudiante_id_estudiante,
+        p_estudiante_registro_num_doc,
+        p_estudiante_registro_rol_id_rol,
+        p_estudiante_registro_jornada_id_jornada
+    );
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerMatriculas()
+BEGIN
+    SELECT * FROM matricula;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ActualizarMatricula(
+    IN p_id_matricula INT,
+    IN p_grado_id_grado INT,
+    IN p_cursos_id_cursos INT,
+    IN p_estudiante_id_estudiante INT,
+    IN p_estudiante_registro_num_doc INT,
+    IN p_estudiante_registro_rol_id_rol INT,
+    IN p_estudiante_registro_jornada_id_jornada INT
+)
+BEGIN
+    UPDATE matricula
+    SET
+        grado_id_grado = p_grado_id_grado,
+        cursos_id_cursos = p_cursos_id_cursos,
+        estudiante_id_estudiante = p_estudiante_id_estudiante,
+        estudiante_registro_num_doc = p_estudiante_registro_num_doc,
+        estudiante_registro_rol_id_rol = p_estudiante_registro_rol_id_rol,
+        estudiante_registro_jornada_id_jornada = p_estudiante_registro_jornada_id_jornada
+    WHERE id_matricula = p_id_matricula;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE EliminarMatricula(IN p_id_matricula INT)
+BEGIN
+    DELETE FROM matricula WHERE id_matricula = p_id_matricula;
+END $$
+
+DELIMITER ;
+
+
+___ NOTA 
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertarNota(
+    IN p_id_nota INT,
+    IN p_fecha_nota DATE,
+    IN p_nota DECIMAL(10,0),
+    IN p_matricula_id_matricula INT,
+    IN p_actividad_id_actividad INT
+)
+BEGIN
+    INSERT INTO nota (
+        id_nota,
+        fecha_nota,
+        nota,
+        matricula_id_matricula,
+        actividad_id_actividad
+    )
+    VALUES (
+        p_id_nota,
+        p_fecha_nota,
+        p_nota,
+        p_matricula_id_matricula,
+        p_actividad_id_actividad
+    );
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerNotas()
+BEGIN
+    SELECT * FROM nota;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ActualizarNota(
+    IN p_id_nota INT,
+    IN p_fecha_nota DATE,
+    IN p_nota DECIMAL(10,0),
+    IN p_matricula_id_matricula INT,
+    IN p_actividad_id_actividad INT
+)
+BEGIN
+    UPDATE nota
+    SET
+        fecha_nota = p_fecha_nota,
+        nota = p_nota,
+        matricula_id_matricula = p_matricula_id_matricula,
+        actividad_id_actividad = p_actividad_id_actividad
+    WHERE id_nota = p_id_nota;
+END $$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE EliminarNota(IN p_id_nota INT)
+BEGIN
+    DELETE FROM nota WHERE id_nota = p_id_nota;
+END $$
+
+DELIMITER ;
+
+
+
+___ OBSERVACION 
+
+DELIMITER $$
+CREATE PROCEDURE CrearObservacion (
+  IN p_idObservacion INT,
+  IN p_fechaCompromiso DATE,
+  IN p_observacion CHAR(120),
+  IN p_compromiso CHAR(120),
+  IN p_nombre_docente CHAR(45),
+  IN p_firma_alumno LONGBLOB,
+  IN p_id_observador INT,
+  IN p_id_estudiante INT,
+  IN p_num_doc INT,
+  IN p_id_rol INT,
+  IN p_id_jornada INT
+)
+BEGIN
+  INSERT INTO observacion (
+    idObservacion, fechaCompromiso, observacion, compromiso,
+    nombre_docente, firma_alumno,
+    observador_id_observador, estudiante_id_estudiante,
+    estudiante_registro_num_doc, estudiante_registro_rol_id_rol,
+    estudiante_registro_jornada_id_jornada
+  ) VALUES (
+    p_idObservacion, p_fechaCompromiso, p_observacion, p_compromiso,
+    p_nombre_docente, p_firma_alumno,
+    p_id_observador, p_id_estudiante,
+    p_num_doc, p_id_rol, p_id_jornada
+  );
+END $$
+
+
+CREATE PROCEDURE ObtenerObservaciones()
+BEGIN
+  SELECT * FROM observacion;
+END $$
+
+
+CREATE PROCEDURE ActualizarObservacion (
+  IN p_idObservacion INT,
+  IN p_fechaCompromiso DATE,
+  IN p_observacion CHAR(120),
+  IN p_compromiso CHAR(120),
+  IN p_nombre_docente CHAR(45),
+  IN p_firma_alumno LONGBLOB,
+  IN p_id_observador INT,
+  IN p_id_estudiante INT,
+  IN p_num_doc INT,
+  IN p_id_rol INT,
+  IN p_id_jornada INT
+)
+BEGIN
+  UPDATE observacion
+  SET
+    fechaCompromiso = p_fechaCompromiso,
+    observacion = p_observacion,
+    compromiso = p_compromiso,
+    nombre_docente = p_nombre_docente,
+    firma_alumno = p_firma_alumno,
+    observador_id_observador = p_id_observador,
+    estudiante_id_estudiante = p_id_estudiante,
+    estudiante_registro_num_doc = p_num_doc,
+    estudiante_registro_rol_id_rol = p_id_rol,
+    estudiante_registro_jornada_id_jornada = p_id_jornada
+  WHERE idObservacion = p_idObservacion;
+END $$
+
+CREATE PROCEDURE EliminarObservacion (
+  IN p_idObservacion INT
+)
+BEGIN
+  DELETE FROM observacion WHERE idObservacion = p_idObservacion;
+END $$
+DELIMITER ;
+
+
+
+___ OBSERVADOR 
+
+DELIMITER $$
+CREATE PROCEDURE CrearObservador (
+  IN p_id_observador INT,
+  IN p_num_doc INT,
+  IN p_tel_emergencia CHAR(25),
+  IN p_padre_nombre CHAR(90),
+  IN p_padre_apellido CHAR(90),
+  IN p_padre_ocupacion CHAR(150),
+  IN p_padre_cedula CHAR(15),
+  IN p_padre_direccion VARCHAR(260),
+  IN p_padre_telefono CHAR(13),
+  IN p_padre_correo CHAR(200),
+  IN p_madre_nombre CHAR(90),
+  IN p_madre_apellido CHAR(90),
+  IN p_madre_ocupacion CHAR(150),
+  IN p_madre_cedula CHAR(15),
+  IN p_madre_direccion VARCHAR(260),
+  IN p_madre_telefono CHAR(13),
+  IN p_madre_correo CHAR(200),
+  IN p_acudiente_nombre CHAR(90),
+  IN p_acudiente_apellido CHAR(90),
+  IN p_acudiente_ocupacion CHAR(150),
+  IN p_acudiente_cedula CHAR(15),
+  IN p_acudiente_direccion VARCHAR(260),
+  IN p_acudiente_telefono CHAR(13),
+  IN p_acudiente_correo CHAR(200)
+)
+BEGIN
+  INSERT INTO observador (
+    id_observador, num_doc, Tel_emergencia,
+    padre_nombre, padre_apellido, padre_ocupacion, padre_cedula, padre_direccion, padre_telefono, padre_correo,
+    madre_nombre, madre_apellido, madre_ocupacion, madre_cedula, madre_direccion, madre_telefono, madre_correo,
+    acudiente_nombre, acudiente_apellido, acudiente_ocupacion, acudiente_cedula, acudiente_direccion, acudiente_telefono, acudiente_correo
+  ) VALUES (
+    p_id_observador, p_num_doc, p_tel_emergencia,
+    p_padre_nombre, p_padre_apellido, p_padre_ocupacion, p_padre_cedula, p_padre_direccion, p_padre_telefono, p_padre_correo,
+    p_madre_nombre, p_madre_apellido, p_madre_ocupacion, p_madre_cedula, p_madre_direccion, p_madre_telefono, p_madre_correo,
+    p_acudiente_nombre, p_acudiente_apellido, p_acudiente_ocupacion, p_acudiente_cedula, p_acudiente_direccion, p_acudiente_telefono, p_acudiente_correo
+  );
+END $$
+
+
+CREATE PROCEDURE Obtener_observador()
+BEGIN
+  SELECT * FROM observador;
+END $$
+
+CREATE PROCEDURE ActualizarObservador (
+  IN p_id_observador INT,
+  IN p_num_doc INT,
+  IN p_tel_emergencia CHAR(25),
+  IN p_padre_nombre CHAR(90),
+  IN p_padre_apellido CHAR(90),
+  IN p_padre_ocupacion CHAR(150),
+  IN p_padre_cedula CHAR(15),
+  IN p_padre_direccion VARCHAR(260),
+  IN p_padre_telefono CHAR(13),
+  IN p_padre_correo CHAR(200),
+  IN p_madre_nombre CHAR(90),
+  IN p_madre_apellido CHAR(90),
+  IN p_madre_ocupacion CHAR(150),
+  IN p_madre_cedula CHAR(15),
+  IN p_madre_direccion VARCHAR(260),
+  IN p_madre_telefono CHAR(13),
+  IN p_madre_correo CHAR(200),
+  IN p_acudiente_nombre CHAR(90),
+  IN p_acudiente_apellido CHAR(90),
+  IN p_acudiente_ocupacion CHAR(150),
+  IN p_acudiente_cedula CHAR(15),
+  IN p_acudiente_direccion VARCHAR(260),
+  IN p_acudiente_telefono CHAR(13),
+  IN p_acudiente_correo CHAR(200)
+)
+BEGIN
+  UPDATE observador
+  SET
+    num_doc = p_num_doc,
+    Tel_emergencia = p_tel_emergencia,
+    padre_nombre = p_padre_nombre,
+    padre_apellido = p_padre_apellido,
+    padre_ocupacion = p_padre_ocupacion,
+    padre_cedula = p_padre_cedula,
+    padre_direccion = p_padre_direccion,
+    padre_telefono = p_padre_telefono,
+    padre_correo = p_padre_correo,
+    madre_nombre = p_madre_nombre,
+    madre_apellido = p_madre_apellido,
+    madre_ocupacion = p_madre_ocupacion,
+    madre_cedula = p_madre_cedula,
+    madre_direccion = p_madre_direccion,
+    madre_telefono = p_madre_telefono,
+    madre_correo = p_madre_correo,
+    acudiente_nombre = p_acudiente_nombre,
+    acudiente_apellido = p_acudiente_apellido,
+    acudiente_ocupacion = p_acudiente_ocupacion,
+    acudiente_cedula = p_acudiente_cedula,
+    acudiente_direccion = p_acudiente_direccion,
+    acudiente_telefono = p_acudiente_telefono,
+    acudiente_correo = p_acudiente_correo
+  WHERE id_observador = p_id_observador;
+END $$
+
+
+CREATE PROCEDURE EliminarObservador (
+  IN p_id_observador INT
+)
+BEGIN
+  DELETE FROM observador WHERE id_observador = p_id_observador;
+END $$
+DELIMITER ;
+
+
+___PUBLIC_EVENTOS
+
+DELIMITER $$
+CREATE PROCEDURE CrearEvento (
+  IN p_id_evento INT,
+  IN p_img LONGBLOB,
+  IN p_evento VARCHAR(1500),
+  IN p_fecha_evento DATE,
+  IN p_num_doc INT
+)
+BEGIN
+  INSERT INTO public_eventos (
+    id_evento, img, evento, fecha_evento, registro_num_doc
+  ) VALUES (
+    p_id_evento, p_img, p_evento, p_fecha_evento, p_num_doc
+  );
+END $$
+
+
+CREATE PROCEDURE ObtenerEventos()
+BEGIN
+  SELECT * FROM public_eventos;
+END $$
+
+
+CREATE PROCEDURE ActualizarEvento (
+  IN p_id_evento INT,
+  IN p_img LONGBLOB,
+  IN p_evento VARCHAR(1500),
+  IN p_fecha_evento DATE,
+  IN p_num_doc INT
+)
+BEGIN
+  UPDATE public_eventos
+  SET
+    img = p_img,
+    evento = p_evento,
+    fecha_evento = p_fecha_evento,
+    registro_num_doc = p_num_doc
+  WHERE id_evento = p_id_evento;
+END $$
+
+
+CREATE PROCEDURE EliminarEvento (
+  IN p_id_evento INT
+)
+BEGIN
+  DELETE FROM public_eventos WHERE id_evento = p_id_evento;
+END $$
+
+
+___PUBLIC_NOTICIAS
+
+DELIMITER $$
+CREATE PROCEDURE CrearNoticia (
+  IN p_id_noticia INT,
+  IN p_titulo CHAR(100),
+  IN p_info VARCHAR(1500),
+  IN p_num_doc INT
+)
+BEGIN
+  INSERT INTO public_noticias (
+    id_noticia, titulo, info, registro_num_doc
+  ) VALUES (
+    p_id_noticia, p_titulo, p_info, p_num_doc
+  );
+END $$
+
+
+CREATE PROCEDURE ObtenerNoticias()
+BEGIN
+  SELECT * FROM public_noticias;
+END $$
+
+CREATE PROCEDURE ActualizarNoticia (
+  IN p_id_noticia INT,
+  IN p_titulo CHAR(100),
+  IN p_info VARCHAR(1500),
+  IN p_num_doc INT
+)
+BEGIN
+  UPDATE public_noticias
+  SET
+    titulo = p_titulo,
+    info = p_info,
+    registro_num_doc = p_num_doc
+  WHERE id_noticia = p_id_noticia;
+END $$
+
+
+CREATE PROCEDURE EliminarNoticia (
+  IN p_id_noticia INT
+)
+BEGIN
+  DELETE FROM public_noticias WHERE id_noticia = p_id_noticia;
+END $$
+
+___REGISTRO
+
+DELIMITER $$
+CREATE PROCEDURE CrearRegistro (
+  IN p_num_doc INT,
+  IN p_tipo_doc CHAR(15),
+  IN p_foto_perfil LONGBLOB,
+  IN p_nombres CHAR(45),
+  IN p_apellidos CHAR(45),
+  IN p_celular CHAR(12),
+  IN p_telefono CHAR(15),
+  IN p_direccion CHAR(45),
+  IN p_correo CHAR(45),
+  IN p_pass CHAR(200),
+  IN p_rol_id INT,
+  IN p_jornada_id INT
+)
+BEGIN
+  INSERT INTO registro (
+    num_doc, tipo_doc, foto_perfil, nombres, apellidos,
+    celular, telefono, direccion, correo, pass,
+    rol_id_rol, jornada_id_jornada
+  ) VALUES (
+    p_num_doc, p_tipo_doc, p_foto_perfil, p_nombres, p_apellidos,
+    p_celular, p_telefono, p_direccion, p_correo, p_pass,
+    p_rol_id, p_jornada_id
+  );
+END $$
+
+
+CREATE PROCEDURE ObtenerRegistros()
+BEGIN
+  SELECT * FROM registro;
+END $$
+
+
+
+CREATE PROCEDURE ActualizarRegistro (
+  IN p_num_doc INT,
+  IN p_tipo_doc CHAR(15),
+  IN p_foto_perfil LONGBLOB,
+  IN p_nombres CHAR(45),
+  IN p_apellidos CHAR(45),
+  IN p_celular CHAR(12),
+  IN p_telefono CHAR(15),
+  IN p_direccion CHAR(45),
+  IN p_correo CHAR(45),
+  IN p_pass CHAR(200),
+  IN p_rol_id INT,
+  IN p_jornada_id INT
+)
+BEGIN
+  UPDATE registro
+  SET
+    tipo_doc = p_tipo_doc,
+    foto_perfil = p_foto_perfil,
+    nombres = p_nombres,
+    apellidos = p_apellidos,
+    celular = p_celular,
+    telefono = p_telefono,
+    direccion = p_direccion,
+    correo = p_correo,
+    pass = p_pass,
+    rol_id_rol = p_rol_id,
+    jornada_id_jornada = p_jornada_id
+  WHERE num_doc = p_num_doc;
+END $$
+
+
+CREATE PROCEDURE EliminarRegistro (
+  IN p_num_doc INT
+)
+BEGIN
+  DELETE FROM registro WHERE num_doc = p_num_doc;
+END $$
+DELIMITER ;
+
+
+___ROL
+
+DELIMITER $$
+CREATE PROCEDURE CrearRol(
+IN p_rol char(15)
+)
+BEGIN 
+INSERT INTO rol(rol) VALUE (p_rol);
+END $$
+
+CREATE PROCEDURE ObtenereRol()
+BEGIN
+SELECT * FROM rol; 
+END$$
+
+CREATE PROCEDURE ActualizarRol(
+IN p_rol CHAR(15),
+IN p_id_rol INT)
+BEGIN 
+UPDATE rol SET 
+rol = p_rol
+ WHERE id_rol = p_id_rol;
+END$$
+
+CREATE PROCEDURE EliminarRol(IN p_id_rol INT)
+BEGIN
+DELETE FROM rol WHERE id_rol = p_id_rol;
+END$$
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
